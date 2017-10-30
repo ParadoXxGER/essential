@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1'}/
+    %meta{:charset => 'utf-8'}
+    %title Essential - Login
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+  %body
+    %section.hero.is-fullheight{style: 'background: #F2F6FA;'}
+      %div.hero-body
+        %div.container.is-fluid
+          %div.columns
+            %div.column.is-4.is-offset-4.has-text-centered
+              = yield.freeze
+              - unless flash[:success].blank?
+                %div.notification.is-success
+                  %button.delete{ onclick: 'this.parentNode.parentNode.removeChild(this.parentNode);' }
+                  =flash[:success]
+              - unless flash[:error].blank?
+                %div.notification.is-danger
+                  %button.delete{ onclick: 'this.parentNode.parentNode.removeChild(this.parentNode);' }
+                  =flash[:error]

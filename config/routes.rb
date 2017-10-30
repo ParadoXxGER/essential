@@ -4,4 +4,7 @@ Rails.application.routes.draw do
 
   get '/', to: 'hello#show'
 
+  resources :login, controller: 'user_sessions', only: [:index, :create], as: 'login'
+  resources :logout, controller: 'user_sessions', only: [:destroy], as: 'logout'
+
 end

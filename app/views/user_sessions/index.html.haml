@@ -1,0 +1,18 @@
+%h1.title Please login
+%div.box
+  %figure.image
+    %img{src: "/assets/ibm.png", style: 'background-position:center;'}
+    %hr
+  - if flash[:login_error]
+    %div.message.is-danger
+      %div.message-header= t('general.error.title')
+      %div.message-body= flash[:login_error]
+  = form_for :user_session do |f|
+    %div.field
+      %p.control
+        = email_field_tag 'user_session[email]', nil, class: 'input is-large', placeholder: 'Username'
+    %div.field
+      %p.control
+        = password_field_tag 'user_session[password]', nil, class: 'input is-large', placeholder: 'Password'
+    %div.field
+      = submit_tag 'Login', class: 'button is-large is-link is-fullwidth'

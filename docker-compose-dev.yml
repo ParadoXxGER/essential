@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  essential-postgres:
+    image: postgres:10
+    environment:
+      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_DB=essential-dev"
+    ports:
+      - "5432:5432"
+  essential-redis:
+    image: redis
+    ports:
+      - "6379:6379"
