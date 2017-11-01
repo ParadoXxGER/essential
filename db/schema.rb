@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20171101195951) do
     t.string "email"
     t.string "crypted_password"
     t.string "password_salt"
+    t.string "persistence_token"
     t.integer "login_count", default: 0, null: false
     t.integer "failed_login_count", default: 0, null: false
     t.datetime "last_request_at"
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(version: 20171101195951) do
     t.boolean "confirmed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
   add_foreign_key "file_posts", "users"
