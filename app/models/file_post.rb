@@ -1,0 +1,3 @@
+class FilePost < AbstractPost
+
+end

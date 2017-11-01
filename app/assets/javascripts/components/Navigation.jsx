@@ -36,8 +36,38 @@ class Navigation extends React.Component {
                     <div id="navMenuTransparentExample" className="navbar-menu">
                         <div className="navbar-start">
                             <div className="navbar-item has-dropdown is-hoverable">
-                                <a className="navbar-link  is-active" href="/documentation/overview/start/">
-                                    Docs
+                                <div className="navbar-link">
+                                    Pages
+                                </div>
+                                <div id="moreDropdown" className="navbar-dropdown is-boxed">
+                                    <a className="navbar-item " href="https://bulma.io/bulma-start/">
+                                        <p>
+                                            <strong>Bulma start</strong>
+                                            <br/>
+                                            <small>A tiny npm package to get started</small>
+                                        </p>
+                                    </a>
+                                    <hr className="navbar-divider"/>
+                                    <a className="navbar-item " href="https://bulma.io/made-with-bulma/">
+                                        <p>
+                                            <strong>Made with Bulma</strong>
+                                            <br/>
+                                            <small>The official community badge</small>
+                                        </p>
+                                    </a>
+                                    <hr className="navbar-divider"/>
+                                    <a className="navbar-item " href="https://bulma.io/extensions/">
+                                        <p>
+                                            <strong>Extensions</strong>
+                                            <br/>
+                                            <small>Side projects to enhance Bulma</small>
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="navbar-item has-dropdown is-hoverable">
+                                <a className="navbar-link is-active" href="/documentation/overview/start/">
+                                    Colleagues
                                 </a>
                                 <div className="navbar-dropdown is-boxed">
                                     <a className="navbar-item " href="/documentation/overview/start/">
@@ -76,9 +106,11 @@ class Navigation extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div className="navbar-end">
                             <div className="navbar-item has-dropdown is-hoverable">
                                 <a className="navbar-link " href="https://bulma.io/blog/">
-                                    Blog
+                                    Notifications
                                 </a>
                                 <div id="blogDropdown" className="navbar-dropdown is-boxed" data-style="width: 18rem;">
                                     <a className="navbar-item" href="/2017/10/09/roses-are-red-links-are-blue/">
@@ -105,66 +137,29 @@ class Navigation extends React.Component {
                                             <p>Bulma / Bootstrap comparison</p>
                                         </div>
                                     </a>
-                                    <a className="navbar-item" href="https://bulma.io/blog/">
-                                        More posts
-                                    </a>
                                     <hr className="navbar-divider"/>
                                     <div className="navbar-item">
                                         <div className="navbar-content">
                                             <div className="level is-mobile">
                                                 <div className="level-left">
                                                     <div className="level-item">
-                                                        <strong>Stay up to date!</strong>
+                                                        <a className="button bd-is-rss is-small"
+                                                           href="https://bulma.io/atom.xml">
+                                                            <span className="icon is-small">
+                                                              <i className="fa fa-check"/>
+                                                            </span>
+                                                            <span>Mark all as read</span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div className="level-right">
-                                                    <div className="level-item">
-                                                        <a className="button bd-is-rss is-small"
-                                                           href="https://bulma.io/atom.xml">
-                            <span className="icon is-small">
-                              <i className="fa fa-rss"/>
-                            </span>
-                                                            <span>Subscribe</span>
-                                                        </a>
-                                                    </div>
+                                                    <a>Show all</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="navbar-item has-dropdown is-hoverable">
-                                <div className="navbar-link">
-                                    More
-                                </div>
-                                <div id="moreDropdown" className="navbar-dropdown is-boxed">
-                                    <a className="navbar-item " href="https://bulma.io/bulma-start/">
-                                        <p>
-                                            <strong>Bulma start</strong>
-                                            <br/>
-                                            <small>A tiny npm package to get started</small>
-                                        </p>
-                                    </a>
-                                    <hr className="navbar-divider"/>
-                                    <a className="navbar-item " href="https://bulma.io/made-with-bulma/">
-                                        <p>
-                                            <strong>Made with Bulma</strong>
-                                            <br/>
-                                            <small>The official community badge</small>
-                                        </p>
-                                    </a>
-                                    <hr className="navbar-divider"/>
-                                    <a className="navbar-item " href="https://bulma.io/extensions/">
-                                        <p>
-                                            <strong>Extensions</strong>
-                                            <br/>
-                                            <small>Side projects to enhance Bulma</small>
-                                        </p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="navbar-end">
                             <div className="navbar-item">
                                 <div className="field is-grouped">
                                     <p className="control">

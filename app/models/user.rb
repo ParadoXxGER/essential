@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+  has_many :text_posts, dependent: :destroy
+
   validates :username, presence: true
   validates :crypted_password, presence: true
   validates :email, presence: true

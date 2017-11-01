@@ -10,10 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171029094608) do
+ActiveRecord::Schema.define(version: 20171101195951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "file_posts", force: :cascade do |t|
+    t.string "content"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["content"], name: "index_file_posts_on_content"
+    t.index ["slug"], name: "index_file_posts_on_slug"
+    t.index ["user_id"], name: "index_file_posts_on_user_id"
+  end
+
+  create_table "photo_album_posts", force: :cascade do |t|
+    t.string "content"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["content"], name: "index_photo_album_posts_on_content"
+    t.index ["slug"], name: "index_photo_album_posts_on_slug"
+    t.index ["user_id"], name: "index_photo_album_posts_on_user_id"
+  end
+
+  create_table "text_posts", force: :cascade do |t|
+    t.string "content"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["content"], name: "index_text_posts_on_content"
+    t.index ["slug"], name: "index_text_posts_on_slug"
+    t.index ["user_id"], name: "index_text_posts_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
@@ -33,4 +66,7 @@ ActiveRecord::Schema.define(version: 20171029094608) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "file_posts", "users"
+  add_foreign_key "photo_album_posts", "users"
+  add_foreign_key "text_posts", "users"
 end

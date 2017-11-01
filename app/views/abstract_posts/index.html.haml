@@ -1,0 +1,19 @@
+%h1 Listing abstract_posts
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @abstract_posts.each do |abstract_post|
+      %tr
+        %td= link_to 'Show', abstract_post
+        %td= link_to 'Edit', edit_abstract_post_path(abstract_post)
+        %td= link_to 'Destroy', abstract_post, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Abstract post', new_abstract_post_path

@@ -1,0 +1,19 @@
+%h1 Listing file_posts
+
+%table
+  %thead
+    %tr
+      %th
+      %th
+      %th
+
+  %tbody
+    - @file_posts.each do |file_post|
+      %tr
+        %td= link_to 'Show', file_post
+        %td= link_to 'Edit', edit_file_post_path(file_post)
+        %td= link_to 'Destroy', file_post, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New File post', new_file_post_path

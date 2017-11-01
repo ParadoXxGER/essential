@@ -1,0 +1,2 @@
+class TextPost < AbstractPost
+end

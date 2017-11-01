@@ -1,0 +1,2 @@
+class PhotoAlbumPost < AbstractPost
+end

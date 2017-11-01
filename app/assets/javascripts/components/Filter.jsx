@@ -3,7 +3,7 @@ class Filter extends React.Component {
         return (
         <nav className="level">
             <div className="level-left is-hidden-mobile">
-                <p className="level-item"><strong>All</strong></p>
+                <p className="level-item"><strong>Filter:</strong></p>
                 <p className="level-item"><a>Published</a></p>
                 <p className="level-item"><a>Drafts</a></p>
                 <p className="level-item"><a>Deleted</a></p>
@@ -17,6 +17,7 @@ class Filter extends React.Component {
                         </span>
                     </a>
                 </p>
+                <p className="level-item"><a>Reset all filter</a></p>
             </div>
         </nav>
     );
