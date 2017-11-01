@@ -3,7 +3,6 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1'}/
-    %meta{:charset => 'utf-8'}
     %title Essential - Login
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all'
@@ -13,8 +12,9 @@
       %div.hero-body
         %div.container.is-fluid
           %div.columns
-            %div.column.is-4.is-offset-4.has-text-centered
-              = yield.freeze
+            %div.column.is-2
+            %div.column.is-8.has-text-centered
+              = yield
               - unless flash[:success].blank?
                 %div.notification.is-success
                   %button.delete{ onclick: 'this.parentNode.parentNode.removeChild(this.parentNode);' }
@@ -23,3 +23,4 @@
                 %div.notification.is-danger
                   %button.delete{ onclick: 'this.parentNode.parentNode.removeChild(this.parentNode);' }
                   =flash[:error]
+            %div.column.is-2

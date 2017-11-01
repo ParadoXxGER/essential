@@ -2,9 +2,20 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1'}/
     %title Essential
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    = yield
+    %section.hero.is-fullheight{style: 'background: #F2F6FA;'}
+      %div.hero-head{style: 'position: fixed; z-index: 9999; width: 100%; background: white;'}
+        =react_component('Navigation')
+      %div.hero-body
+        %div.container.is-fluid
+          %div.columns{style: 'padding-top: 60px;'}
+            %div.column.is-2.is-hidden-mobile
+            %div.column.is-8
+              %div.box
+                = yield
+            %div.column.is-2.is-hidden-mobile
