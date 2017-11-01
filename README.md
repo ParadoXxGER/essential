@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
 
-* Ruby version
 
-* System dependencies
 
-* Configuration
 
-* Database creation
+#### Why Ruby on Rails and React?:
 
-* Database initialization
+https://railsware.com/
 
-* How to run the test suite
+https://virtualspirit.me/
 
-* Services (job queues, cache servers, search engines, etc.)
+http://www.shakacode.com/
 
-* Deployment instructions
+https://egghead.io/
 
-* ...
+https://www.github.com/
+
+https://littlelines.com/
