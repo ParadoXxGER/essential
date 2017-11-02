@@ -12,13 +12,13 @@ class PostComment extends React.Component {
                                 </p>
                             </div>
                             <div className="level-item">
-                                <h4><strong>Niklas Hanft</strong><small> commented:</small></h4>
+                                <h4><strong>{this.props.obj.user.username}</strong><small> commented:</small></h4>
                             </div>
                         </div>
                     </nav>
                     <div className="content">
                         <p>
-                            Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
+                          {this.props.obj.text}
                             <br />
                             <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
                         </p>

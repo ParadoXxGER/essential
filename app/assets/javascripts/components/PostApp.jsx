@@ -2,13 +2,18 @@ class PostApp extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { items: [] };
+        this.state = { items: [], loading: true };
+    }
+
+    mountResult(state){
+      this.setState(state);
     }
 
     componentDidMount() {
-        fetch(`/api/v1/text_posts`)
-        .then(result=> {
-            this.setState({items: this.state.items.concat(result.json())});
+        fetch('/api/v1/text_posts')
+        .then(response => response.json())
+        .then(json => {
+          this.mountResult({ items: json, loading: false})
         })
         .catch(error => {
             console.log(error)
@@ -16,13 +21,18 @@ class PostApp extends React.Component {
     }
 
     render() {
+
+        if(this.state.loading){
+            return <LoadingSpinner></LoadingSpinner>
+        }
+
         return (
             <span>
 
                 {
                     this.state.items.map(item => {
                         return (
-                            <PostListItem key={item.id} />
+                            <PostListItem obj={item} key={item.id} />
                         )
                     })
                 }
