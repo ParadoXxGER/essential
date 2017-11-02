@@ -1,13 +1,16 @@
 class PostListItem extends React.Component {
   constructor(){
       super();
+      this.state = {commentArea: { active: false}}
   }
 
   componentDidMount(){
+
   }
 
+
   render() {
-    var a = [0,1];
+
     return (
         <div>
             <article className="media">
@@ -33,7 +36,7 @@ class PostListItem extends React.Component {
                         <p>
                             {this.props.obj.content}
                             <br />
-                            <small><a>Like</a> · <a>Reply</a> · 3 hrs</small>
+                            <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · 3 hrs</small>
                         </p>
                     </div>
                     <div className="tags">
@@ -50,7 +53,10 @@ class PostListItem extends React.Component {
                     {
                         this.props.obj.comments.map(comment => { return ( <PostComment obj={comment} key={comment.id} />)})
                     }
-                    <PostCommentArea/>
+                    {
+                      this.state.commentArea.active === true && <PostCommentArea/>
+                    }
+
                 </div>
             </article>
             <hr></hr>

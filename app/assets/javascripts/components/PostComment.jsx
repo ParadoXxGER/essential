@@ -12,7 +12,7 @@ class PostComment extends React.Component {
                                 </p>
                             </div>
                             <div className="level-item">
-                                <h4><strong>{this.props.obj.user.username}</strong><small> commented:</small></h4>
+                                <h4><strong>{this.props.obj.user.username}</strong></h4>
                             </div>
                         </div>
                     </nav>
@@ -20,7 +20,7 @@ class PostComment extends React.Component {
                         <p>
                           {this.props.obj.text}
                             <br />
-                            <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
+                            <small><a>Like</a> · posted 2 hrs ago</small>
                         </p>
                     </div>
                 </div>

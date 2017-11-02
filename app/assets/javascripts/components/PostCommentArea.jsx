@@ -1,5 +1,6 @@
 class PostCommentArea extends React.Component {
     render (){
+
         return(
         <article className="media" style={{marginLeft: '30px'}}>
             <div className="media-content">
