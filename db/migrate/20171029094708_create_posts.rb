@@ -1,11 +1,14 @@
-class CreateTextPosts < ActiveRecord::Migration[5.1]
+class CreatePosts < ActiveRecord::Migration[5.1]
   def change
-    create_table :text_posts do |t|
+    create_table :posts do |t|
+
       t.string :content
       t.index :content
 
       t.string :slug
       t.index :slug
+
+      t.references :user, foreign_key: true
 
       t.timestamps
     end

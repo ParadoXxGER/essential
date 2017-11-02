@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'dbview_cti'
 gem 'font-awesome-rails'
 gem 'bcrypt'
 gem 'authlogic'

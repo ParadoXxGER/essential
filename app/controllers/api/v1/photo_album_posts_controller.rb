@@ -4,7 +4,18 @@ module Api::V1
     # GET /photo_album_posts
     # GET /photo_album_posts.json
     def index
-      render json: PhotoAlbumPost.all
+      @posts = PhotoAlbumPost.includes(:user, :comments).references(:user, :comments)
+      render json: @posts.to_json(
+        include: {
+          user: {
+            only: %i[username,id,firstname,lastname]
+          },
+          comments: {
+            include: {
+              user: { only: [:username, :id, :firstname, :lastname]}
+            }
+          }
+        })
     end
   end
 

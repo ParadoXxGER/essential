@@ -10,42 +10,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101195951) do
+ActiveRecord::Schema.define(version: 20171102095722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "file_posts", force: :cascade do |t|
-    t.string "content"
-    t.string "slug"
+  create_table "comments", force: :cascade do |t|
+    t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.index ["content"], name: "index_file_posts_on_content"
-    t.index ["slug"], name: "index_file_posts_on_slug"
-    t.index ["user_id"], name: "index_file_posts_on_user_id"
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "file_posts", force: :cascade do |t|
+    t.string "file_url"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_file_posts_on_post_id"
   end
 
   create_table "photo_album_posts", force: :cascade do |t|
-    t.string "content"
-    t.string "slug"
+    t.string "photo_url"
+    t.bigint "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_photo_album_posts_on_post_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "content"
+    t.string "slug"
     t.bigint "user_id"
-    t.index ["content"], name: "index_photo_album_posts_on_content"
-    t.index ["slug"], name: "index_photo_album_posts_on_slug"
-    t.index ["user_id"], name: "index_photo_album_posts_on_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content"], name: "index_posts_on_content"
+    t.index ["slug"], name: "index_posts_on_slug"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "text_posts", force: :cascade do |t|
-    t.string "content"
-    t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["content"], name: "index_text_posts_on_content"
-    t.index ["slug"], name: "index_text_posts_on_slug"
-    t.index ["user_id"], name: "index_text_posts_on_user_id"
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_text_posts_on_post_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -68,7 +79,12 @@ ActiveRecord::Schema.define(version: 20171101195951) do
     t.index ["persistence_token"], name: "index_users_on_persistence_token", unique: true
   end
 
-  add_foreign_key "file_posts", "users"
-  add_foreign_key "photo_album_posts", "users"
-  add_foreign_key "text_posts", "users"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "posts", "users"
+  add_foreign_key "text_posts", "posts"
+  cti_create_view('TextPost')
+  cti_create_view('FilePost')
+  cti_create_view('PhotoAlbumPost')
+
 end

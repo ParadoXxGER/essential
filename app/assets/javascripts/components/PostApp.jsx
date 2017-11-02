@@ -2,26 +2,32 @@ class PostApp extends React.Component {
 
     constructor(props) {
         super(props);
-        this.myArray = [1,2,3,4,5,6,7,8,9,10];
+        this.state = { items: [] };
     }
 
-    addPost(){
-        this.myArray.push(this.myArray.length)
+    componentDidMount() {
+        fetch(`/api/v1/text_posts`)
+        .then(result=> {
+            this.setState({items: this.state.items.concat(result.json())});
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
-
         return (
             <span>
+
                 {
-                    this.myArray.map(i => {
+                    this.state.items.map(item => {
                         return (
-                            <PostListItem key={i} />
+                            <PostListItem key={item.id} />
                         )
                     })
                 }
                 <p className="has-text-centered">
-                    <a onClick = {this.addPost}> load more </a>
+                    <a> load more </a>
                 </p>
             </span>
         )

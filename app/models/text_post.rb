@@ -1,2 +1,3 @@
-class TextPost < AbstractPost
+class TextPost < Post
+  cti_derived_class
 end
