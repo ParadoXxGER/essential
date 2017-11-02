@@ -12,8 +12,7 @@
       %div.hero-body
         %div.container.is-fluid
           %div.columns
-            %div.column.is-2
-            %div.column.is-8.has-text-centered
+            %div.column.is-4.is-offset-4.has-text-centered
               = yield
               - unless flash[:success].blank?
                 %div.notification.is-success
@@ -23,4 +22,3 @@
                 %div.notification.is-danger
                   %button.delete{ onclick: 'this.parentNode.parentNode.removeChild(this.parentNode);' }
                   =flash[:error]
-            %div.column.is-2
