@@ -6,7 +6,9 @@ class PostApp extends React.Component {
     }
 
     mountResult(state){
-      this.setState(state);
+      setTimeout(() => {
+        this.setState(state);
+      }, 1000)
     }
 
     componentDidMount() {
