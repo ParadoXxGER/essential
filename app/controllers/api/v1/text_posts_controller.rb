@@ -27,7 +27,6 @@ module Api::V1
       tpost.user_id = 1
       tpost.content = params[:text]
       tpost.save
-
     end
 
     private
