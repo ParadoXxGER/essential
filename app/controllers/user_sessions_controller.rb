@@ -1,5 +1,4 @@
 class UserSessionsController < ApplicationController
-
   layout 'public'
 
   def new

@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 20171102095722) do
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
   add_foreign_key "text_posts", "posts"
-  cti_create_view('TextPost')
   cti_create_view('FilePost')
   cti_create_view('PhotoAlbumPost')
+  cti_create_view('TextPost')
 
 end

@@ -3,7 +3,6 @@ class User < ApplicationRecord
   has_many :text_posts, dependent: :destroy
   has_many :photo_album_posts, dependent: :destroy
   has_many :file_posts, dependent: :destroy
-  has_many :comments, dependent: :destroy
 
   validates :username, presence: true
   validates :crypted_password, presence: true

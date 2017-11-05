@@ -1,13 +1,9 @@
 class HelloController < ApplicationController
 
-
-  def myFunc
-    unless myVar
-      puts 'Sorry, myVar ist not set'
-      return
+  def show
+    unless params[:page] || params[:posts_count]
+      return redirect_to '/?page=1&posts_count=15'
     end
-
-    puts 'Jetzt gehts weiter'
   end
 
 end
