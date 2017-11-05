@@ -7,7 +7,7 @@ module Api::V1
     # GET /text_posts
     # GET /text_posts.json
     def index
-      @posts = TextPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts_count])
+      @posts = TextPost.includes(:user, :comments).references(:user, :comments).order(created_at: :desc).page(params[:page]).per(params[:posts_count])
       render json: @posts.to_json(
         include: {
           user: {
@@ -22,7 +22,6 @@ module Api::V1
     end
 
     def create
-
       tpost = TextPost.new
       tpost.user_id = 1
       tpost.content = params[:text]
