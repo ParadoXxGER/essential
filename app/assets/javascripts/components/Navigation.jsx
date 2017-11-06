@@ -13,9 +13,9 @@ class Navigation extends React.Component {
             <div className="container">
                 <nav className="navbar is-transparent">
                     <div className="navbar-brand">
-                        <a className="navbar-item" href="https://bulma.io">
+                        <a className="navbar-item">
                             <img src="https://bulma.io/images/bulma-logo.png"
-                                 alt="Bulma: a modern CSS framework based on Flexbox" width={112} height={28}/>
+                                 alt="Essential Intranet" width={112} height={28}/>
                         </a>
                         <a className="navbar-item is-hidden-desktop" onClick={scrollUp}>
                         <span className="icon" style={{color: '#333'}}>
@@ -40,71 +40,35 @@ class Navigation extends React.Component {
                                     Pages
                                 </div>
                                 <div id="moreDropdown" className="navbar-dropdown is-boxed">
-                                    <a className="navbar-item " href="https://bulma.io/bulma-start/">
+                                    <a className="navbar-item ">
                                         <p>
-                                            <strong>Bulma start</strong>
+                                            <strong>Unternehmenskommunikation</strong>
                                             <br/>
                                             <small>A tiny npm package to get started</small>
                                         </p>
                                     </a>
                                     <hr className="navbar-divider"/>
-                                    <a className="navbar-item " href="https://bulma.io/made-with-bulma/">
+                                    <a className="navbar-item ">
                                         <p>
-                                            <strong>Made with Bulma</strong>
+                                            <strong>Wir über uns</strong>
                                             <br/>
                                             <small>The official community badge</small>
                                         </p>
                                     </a>
                                     <hr className="navbar-divider"/>
-                                    <a className="navbar-item " href="https://bulma.io/extensions/">
+                                    <a className="navbar-item ">
                                         <p>
-                                            <strong>Extensions</strong>
+                                            <strong>Marketing</strong>
                                             <br/>
-                                            <small>Side projects to enhance Bulma</small>
+                                            <small>Side projects to enhance Essential</small>
                                         </p>
                                     </a>
                                 </div>
                             </div>
-                            <div className="navbar-item has-dropdown is-hoverable">
-                                <a className="navbar-link is-active" href="/documentation/overview/start/">
+                            <div className="navbar-item">
+                                <a className="navbar-link is-active">
                                     Colleagues
                                 </a>
-                                <div className="navbar-dropdown is-boxed">
-                                    <a className="navbar-item " href="/documentation/overview/start/">
-                                        Overview
-                                    </a>
-                                    <a className="navbar-item " href="https://bulma.io/documentation/modifiers/syntax/">
-                                        Modifiers
-                                    </a>
-                                    <a className="navbar-item " href="https://bulma.io/documentation/columns/basics/">
-                                        Columns
-                                    </a>
-                                    <a className="navbar-item " href="https://bulma.io/documentation/layout/container/">
-                                        Layout
-                                    </a>
-                                    <a className="navbar-item " href="https://bulma.io/documentation/form/general/">
-                                        Form
-                                    </a>
-                                    <a className="navbar-item " href="https://bulma.io/documentation/elements/box/">
-                                        Elements
-                                    </a>
-                                    <a className="navbar-item is-active"
-                                       href="https://bulma.io/documentation/components/breadcrumb/">
-                                        Components
-                                    </a>
-                                    <hr className="navbar-divider"/>
-                                    <div className="navbar-item">
-                                        <div>
-                                            <p className="is-size-6-desktop">
-                                                <strong>0.6.0</strong>
-                                            </p>
-                                            <small>
-                                                <a className="bd-view-all-versions" href="https://versions.bulma.io/">View
-                                                    all versions</a>
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div className="navbar-end">
@@ -118,7 +82,7 @@ class Navigation extends React.Component {
                                             <p>
                                                 <small className="has-text-link">09 Oct 2017</small>
                                             </p>
-                                            <p>Roses are red – Links are blue</p>
+                                            <p>Niklas Hanft shared a file</p>
                                         </div>
                                     </a>
                                     <a className="navbar-item" href="/2017/08/03/list-of-tags/">
@@ -126,7 +90,7 @@ class Navigation extends React.Component {
                                             <p>
                                                 <small className="has-text-link">03 Aug 2017</small>
                                             </p>
-                                            <p>New feature: list of tags</p>
+                                            <p>Niklas Hanft posted a photo album</p>
                                         </div>
                                     </a>
                                     <a className="navbar-item" href="/2017/08/01/bulma-bootstrap-comparison/">
@@ -134,7 +98,7 @@ class Navigation extends React.Component {
                                             <p>
                                                 <small className="has-text-link">01 Aug 2017</small>
                                             </p>
-                                            <p>Bulma / Bootstrap comparison</p>
+                                            <p>Niklas Hanft shared a link</p>
                                         </div>
                                     </a>
                                     <hr className="navbar-divider"/>
