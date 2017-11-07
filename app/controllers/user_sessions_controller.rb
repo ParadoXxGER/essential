@@ -12,7 +12,6 @@ class UserSessionsController < ApplicationController
 
   def create
     @user_session = UserSession.new(params[:user_session])
-    byebug
     if @user_session.save
       redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'none')
     else
