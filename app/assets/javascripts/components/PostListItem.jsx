@@ -36,7 +36,7 @@ class PostListItem extends React.Component {
                         <p>
                             {this.props.obj.content}
                             <br />
-                            <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · 3 hrs</small>
+                            <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · {this.props.obj.created_at}</small>
                         </p>
                     </div>
                     <div className="tags">

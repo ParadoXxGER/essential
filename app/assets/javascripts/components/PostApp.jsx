@@ -15,7 +15,7 @@ class PostApp extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/v1/text_posts'+window.location.search)
+        fetch('/api/v1/newsfeed'+window.location.search)
         .then(response => response.json())
         .then(json => {
           this.mountResult({ items: json, loading: false})

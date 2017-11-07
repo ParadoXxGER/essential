@@ -2,8 +2,11 @@ class HelloWorld extends React.Component {
     render() {
         return (
             <span>
-              <h1 className="title">{this.props.title}</h1>
-              <h2 className="subtitle">Filter:</h2>
+
+              <p>
+                <h1 className="title">{this.props.title}</h1>
+                Filter:
+              </p>
               <div className="tags">
                 <div class="field is-grouped is-grouped-multiline">
                   {
@@ -18,7 +21,7 @@ class HelloWorld extends React.Component {
                   }
                 </div>
               </div>
-              <h2 className="subtitle">Tags:</h2>
+              <p>Tags:</p>
                 <div class="field is-grouped is-grouped-multiline">
                   {
                     this.props.tags.map(tag => { return (

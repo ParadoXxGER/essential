@@ -44,7 +44,7 @@ class PostNew extends React.Component {
         <div className="media-content">
           <div className="field">
             <p className="control">
-              <textarea className="textarea" onChange={this.handleChange} value={this.state.post.text} placeholder="Write something!" rows="10"/>
+              <textarea className="textarea" onChange={this.handleChange} value={this.state.post.text} placeholder="Write something!" rows="6"/>
             </p>
           </div>
           <div className="field">
