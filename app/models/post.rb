@@ -6,4 +6,5 @@ class Post < ApplicationRecord
   has_many :file_posts, dependent: :destroy
   belongs_to :user
   paginates_per 50
+  class_attribute :type
 end

@@ -4,7 +4,6 @@ class NewsfeedController < ApplicationController
   before_action :populate_filter, only: [:show]
   before_action :populate_tags, only: [:show]
 
-
   def show
     unless params[:page] || params[:posts_count]
       return redirect_to '/?page=1&posts_count=15'
@@ -15,11 +14,11 @@ class NewsfeedController < ApplicationController
   private
 
   def populate_filter
-    @filter = params[:filter].split(':')
+    @filter = params[:filter].split(' ')
   end
 
   def populate_tags
-    @tags = params[:tags].split(':')
+    @tags = params[:tags].split(' ')
   end
 
   def permit_params
@@ -32,6 +31,11 @@ class NewsfeedController < ApplicationController
     params.permit(:filter)
     params.permit(:page)
     params.permit(:posts)
+  end
+
+  def build_cache_key
+    cachekey = "#{params[:filter]}#{params[:tags]}"
+    cachekey.parameterize
   end
 
 

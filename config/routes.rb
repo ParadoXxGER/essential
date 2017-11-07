@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :photo_album_posts
       resources :file_posts
       resources :text_posts
+      resources :newsfeed
     end
   end
 
