@@ -1,13 +1,10 @@
-require "redis"
-
 module Api::V1
   class NewsfeedController < ApiController
 
     before_action :permit_params, only: [:index]
-    before_action :instantiate_redis
 
     def index
-      if @redis.exists(cachekey)
+      if REDIS_CLIENT.exists(cachekey)
 
         setHeader('x-cache-hit', cachekey)
         return serve_cached_newsfeed(cachekey)
@@ -36,7 +33,7 @@ module Api::V1
             }
           }
       })
-      @redis.set(cachekey, @posts)
+      REDIS_CLIENT.set(cachekey, @posts)
       render json: @posts
 
     end
@@ -66,12 +63,8 @@ module Api::V1
       "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
     end
 
-    def instantiate_redis
-      @redis = Redis.new(url: "redis://redis:6379/2")
-    end
-
     def serve_cached_newsfeed(cachekey)
-      render json: JSON.parse(@redis.get(cachekey))
+      render json: JSON.parse(REDIS_CLIENT.get(cachekey))
     end
 
     def setHeader(key, value)

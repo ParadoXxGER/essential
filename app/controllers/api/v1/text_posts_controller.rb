@@ -3,7 +3,6 @@ module Api::V1
 
     before_action :permit_input, only: [:create]
     before_action :permit_pagination, only: [:index]
-    before_action :instantiate_redis
 
     # GET /text_posts
     # GET /text_posts.json
@@ -42,23 +41,19 @@ module Api::V1
     end
 
     def invalidate_cache_by_filter(filter)
-      keys = @redis.keys("*tag-#{filter}*")
+      keys = REDIS_CLIENT.keys("*tag-#{filter}*")
       keys.each do |key|
         puts key
-        @redis.del(key)
+        REDIS_CLIENT.del(key)
       end
     end
 
     def invalidate_cache_by_tag(tag)
-      keys = @redis.keys("*tag-#{tag}*")
+      keys = REDIS_CLIENT.keys("*tag-#{tag}*")
       keys.each do |key|
         puts key
-        @redis.del(key)
+        REDIS_CLIENT.del(key)
       end
-    end
-
-    def instantiate_redis
-      @redis = Redis.new(url: "redis://redis:6379/2")
     end
 
   end
