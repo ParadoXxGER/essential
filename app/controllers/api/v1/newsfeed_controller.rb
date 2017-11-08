@@ -1,10 +1,31 @@
+require "redis"
+
 module Api::V1
   class NewsfeedController < ApiController
 
     before_action :permit_params, only: [:index]
+    before_action :instantiate_redis
 
     def index
-      render json: newsfeed_posts.to_json(
+      if @redis.exists(cachekey)
+
+        setHeader('x-cache-hit', cachekey)
+        return serve_cached_newsfeed(cachekey)
+      end
+
+      setHeader('x-cache-miss', cachekey)
+      serve_newsfeed_and_populate_cache
+    end
+
+    private
+
+    def serve_newsfeed_and_populate_cache
+      @posts = []
+      @posts += PhotoAlbumPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
+      @posts += TextPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
+      @posts += FilePost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
+      @posts.sort_by { |post| Date.parse(post.created_at.to_s)}
+      @posts = @posts.to_json(
         include: {
           user: {
             only: [:username, :id, :firstname, :lastname]
@@ -14,18 +35,10 @@ module Api::V1
               user: { only: [:username, :id, :firstname, :lastname]}
             }
           }
-        })
-    end
+      })
+      @redis.set(cachekey, @posts)
+      render json: @posts
 
-    private
-
-    def newsfeed_posts
-      @posts = []
-      @posts += PhotoAlbumPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
-      @posts += TextPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
-      @posts += FilePost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
-      @posts.sort_by { |post| Date.parse(post.created_at.to_s)}
-      @posts
     end
 
     def permit_params
@@ -38,6 +51,31 @@ module Api::V1
       params.permit(:filter)
       params.permit(:page)
       params.permit(:posts)
+    end
+
+    def cachekey
+
+      filter = params[:filter].split(' ').map do |filter|
+        filter = "filter-#{filter}"
+      end.sort.join(' ')
+
+      tags = params[:tags].split(' ').map do |tag|
+        tag = "tag-#{tag}"
+      end.sort.join(' ')
+
+      "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
+    end
+
+    def instantiate_redis
+      @redis = Redis.new(url: "redis://redis:6379/2")
+    end
+
+    def serve_cached_newsfeed(cachekey)
+      render json: JSON.parse(@redis.get(cachekey))
+    end
+
+    def setHeader(key, value)
+      response.set_header(key, value)
     end
 
   end

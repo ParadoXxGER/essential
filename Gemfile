@@ -7,6 +7,7 @@ end
 
 gem 'kaminari'
 gem 'redis-rails'
+gem 'redis'
 gem 'dbview_cti'
 gem 'font-awesome-rails'
 gem 'bcrypt'

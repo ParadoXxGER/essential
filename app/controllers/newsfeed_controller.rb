@@ -6,6 +6,7 @@ class NewsfeedController < ApplicationController
 
   def show
     unless params[:page] || params[:posts_count]
+
       return redirect_to '/?page=1&posts_count=15'
     end
   end
@@ -32,11 +33,5 @@ class NewsfeedController < ApplicationController
     params.permit(:page)
     params.permit(:posts)
   end
-
-  def build_cache_key
-    cachekey = "#{params[:filter]}#{params[:tags]}"
-    cachekey.parameterize
-  end
-
 
 end
