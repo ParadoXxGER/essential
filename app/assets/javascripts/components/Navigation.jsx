@@ -127,13 +127,14 @@ class Navigation extends React.Component {
                             <div className="navbar-item">
                                 <div className="field is-grouped">
                                     <p className="control">
-                                        <a className="button is-danger"
-                                           href="https://github.com/jgthms/bulma/releases/download/0.6.0/bulma-0.6.0.zip">
-                                        <span className="icon">
-                                          <i className="fa fa-sign-out"/>
-                                        </span>
-                                            <span>Logout</span>
-                                        </a>
+                                        <form action="/logout" method="POST">
+                                          <button type="submit" className="button is-link">
+                                          <span className="icon">
+                                            <i className="fa fa-sign-out"/>
+                                          </span>
+                                              <span>Logout</span>
+                                          </button>
+                                        </form>
                                     </p>
                                 </div>
                             </div>

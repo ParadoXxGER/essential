@@ -15,7 +15,7 @@ class PostFilter extends React.Component {
                 </div>
                 <div className="level-right">
                     <p className="level-item">
-                        <a className="button is-success" onClick={this.onToggleNewPostArea.bind(this)}>
+                        <a className="button" onClick={this.onToggleNewPostArea.bind(this)}>
                             <span>Write a new Post</span>
                             <span className="icon">
                               <i className="fa fa-pencil">
