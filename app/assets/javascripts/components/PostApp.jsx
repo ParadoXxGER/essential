@@ -36,7 +36,8 @@ class PostApp extends React.Component {
               <PostFilter toggleNewPostArea={this.toggleNewPostArea} />
 
               {
-                this.state.showNewPostArea === true && <PostNew/>
+                this.state.showNewPostArea === true &&
+                <PostChooser/>
               }
 
               {
