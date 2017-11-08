@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'newsfeed#show'
 
   namespace :api, { defaults: { format: :json } } do
     namespace :v1 do
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   get '/newsfeed', to: 'newsfeed#show', as: 'newsfeed'
 
   resources :login, controller: 'user_sessions', only: [:index, :create], as: 'login'
-  resources :logout, controller: 'user_sessions', only: [:destroy], as: 'logout'
+  post '/logout', to: 'user_sessions#destroy'
+
 
 end

@@ -4,7 +4,7 @@ class UserSessionsController < ApplicationController
   skip_before_action :ensure_login
 
   before_action :permit_params, only: [:create]
-
+  skip_before_action :verify_authenticity_token, only: [:destroy]
 
   def new
     @user_session = UserSession.new
@@ -21,7 +21,7 @@ class UserSessionsController < ApplicationController
 
   def destroy
     current_user_session.destroy
-    redirect_to new_user_session_url
+    redirect_to '/login'
   end
 
   private
