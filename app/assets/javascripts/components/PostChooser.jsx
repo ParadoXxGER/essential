@@ -5,7 +5,7 @@ class PostChooser extends React.Component {
       <div>
         <div className="columns" style={{overflowX: "scroll"}}>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Image</h3>
@@ -16,7 +16,7 @@ class PostChooser extends React.Component {
             </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Event</h3>
@@ -27,7 +27,7 @@ class PostChooser extends React.Component {
             </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Contact</h3>
@@ -38,7 +38,7 @@ class PostChooser extends React.Component {
             </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Text</h3>
@@ -49,7 +49,7 @@ class PostChooser extends React.Component {
             </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Question</h3>
@@ -60,7 +60,7 @@ class PostChooser extends React.Component {
             </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">File</h3>
@@ -71,7 +71,7 @@ class PostChooser extends React.Component {
               </a>
           </div>
 
-          <div className="column is-2">
+          <div className="column is-narrow">
             <a>
               <div className="box has-text-centered">
                 <h3 className="subtitle is-3">Link</h3>

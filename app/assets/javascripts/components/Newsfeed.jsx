@@ -1,4 +1,4 @@
-class PostApp extends React.Component {
+class Newsfeed extends React.Component {
 
     constructor(props) {
         super(props);
@@ -33,8 +33,10 @@ class PostApp extends React.Component {
 
         return (
             <span>
-              <PostFilter toggleNewPostArea={this.toggleNewPostArea} />
+              <NewsfeedNavigation toggleNewPostArea={this.toggleNewPostArea}/>
+              <hr>
 
+              </hr>
               {
                 this.state.showNewPostArea === true &&
                 <PostChooser/>

@@ -126,16 +126,16 @@ class Navigation extends React.Component {
                             </div>
                             <div className="navbar-item">
                                 <div className="field is-grouped">
-                                    <p className="control">
-                                        <form action="/logout" method="POST">
-                                          <button type="submit" className="button is-link">
-                                          <span className="icon">
-                                            <i className="fa fa-sign-out"/>
-                                          </span>
-                                              <span>Logout</span>
-                                          </button>
-                                        </form>
-                                    </p>
+                                  <form action="/logout" method="POST">
+                                      <p className="control">
+                                        <button type="submit" className="button is-link">
+                                        <span className="icon">
+                                          <i className="fa fa-sign-out"/>
+                                        </span>
+                                            <span>Logout</span>
+                                        </button>
+                                      </p>
+                                  </form>
                                 </div>
                             </div>
                         </div>
