@@ -18,7 +18,7 @@ class PostListItem extends React.Component {
                     <nav className="level is-mobile" style={{marginBottom: '12px'}}>
                         <div className="level-left">
                             <div className="level-item">
-                                <p className="image is-48x48 is-circle" >
+                                <p className="image is-48x48" >
                                     <img style={{borderRadius: "50%"}} src="https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-1/c1.0.40.40/p40x40/10462372_883074528426654_8559815598301621347_n.jpg?oh=7ecebca21425321713c62a1787f3867e&oe=5AA3A0B6" />
                                 </p>
                             </div>

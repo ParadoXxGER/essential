@@ -13,12 +13,4 @@
         =react_component('Navigation')
       %div.hero-body{style: 'padding-left: 12px; padding-right: 12px; padding-top: 12px;'}
         %div.container.is-fluid
-          %div.columns{style: 'padding-top: 60px;'}
-            %div.column.is-2.is-hidden-mobile
-              =react_component('Filter', {filter: @filter})
-              %hr
-              =react_component('Tags', {tags: @tags})
-            %div.column.is-8
-              %div.box{style: 'padding: 15px; min-height: 100vh;'}
-                = yield
-            %div.column.is-2.is-hidden-mobile
+          =yield
