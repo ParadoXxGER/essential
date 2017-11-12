@@ -5,11 +5,11 @@ module Api::V1
 
     def index
       if REDIS_CACHE_CLIENT.exists(cachekey)
-        setHeader('x-cache-hit', cachekey)
+        setHeader('X-Cache-Hit', cachekey)
         return serve_cached_newsfeed(cachekey)
       end
 
-      setHeader('x-cache-miss', cachekey)
+      setHeader('X-Cache-Hit', cachekey)
       serve_newsfeed_and_populate_cache
     end
 
