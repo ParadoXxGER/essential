@@ -4,13 +4,6 @@ class NewsfeedController < ApplicationController
   before_action :populate_filter, only: [:show]
   before_action :populate_tags, only: [:show]
 
-  def show
-    unless params[:page] || params[:posts_count]
-
-      return redirect_to '/?page=1&posts_count=15'
-    end
-  end
-
 
   private
 
@@ -25,7 +18,7 @@ class NewsfeedController < ApplicationController
   def permit_params
 
     unless params[:tags] || params[:filter] || params[:page] || params[:posts]
-      return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'none')
+      return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'none', from: '2017-11-01', to: '2017-11-02')
     end
 
     params.permit(:tags)
