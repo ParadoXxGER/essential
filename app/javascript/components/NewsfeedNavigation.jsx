@@ -15,6 +15,7 @@ export default class NewsfeedNavigation extends React.Component {
         <span>
           <nav className="level">
             <div className="level-left">
+              <h2 className="title">Newsfeed:</h2>
             </div>
             <div className="level-right">
               <div className="level-item">

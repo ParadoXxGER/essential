@@ -10,7 +10,7 @@ export default class Filter extends React.Component {
             this.props.filter.map(filter => { return (
               <div className="control" key={filter}>
                 <div className="tags has-addons">
-                  <a className="tag is-link">{filter}</a>
+                  <a className="tag is-success">{filter}</a>
                   <a className="tag is-delete"></a>
                 </div>
               </div>

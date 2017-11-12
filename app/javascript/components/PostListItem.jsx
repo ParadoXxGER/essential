@@ -1,5 +1,8 @@
 import React from 'react'
 
+import PostCommentArea from './PostCommentArea'
+
+
 export default class PostListItem extends React.Component {
   constructor(){
       super();
@@ -88,7 +91,7 @@ export default class PostListItem extends React.Component {
                         this.props.obj.filter.map(filter => { return ( <a className="tag is-success" key={filter.id}>{filter.text}</a>)})
                       }
                       {
-                        this.props.obj.tags.map(tag => { return ( <a className="tag is-info" key={tag.id}>{tag.text}</a>)})
+                        this.props.obj.tags.map(tag => { return ( <a className="tag is-link" key={tag.id}>{tag.text}</a>)})
                       }
                     </div>
                     {

@@ -7,8 +7,8 @@ export default class NewsfeedDateChooser extends React.Component {
         <div>
           <div className="field">
             <h2 className="subtitle">From:</h2>
-            <div class="control is-expanded">
-              <div class="select is-fullwidth">
+            <div className="control is-expanded">
+              <div className="select is-fullwidth">
                 <select>
                   <option>2017-11-01</option>
                 </select>
@@ -17,8 +17,8 @@ export default class NewsfeedDateChooser extends React.Component {
           </div>
           <div className="field">
             <h2 className="subtitle">To:</h2>
-            <div class="control">
-              <div class="select is-fullwidth">
+            <div className="control">
+              <div className="select is-fullwidth">
                 <select>
                   <option>2017-11-02</option>
                 </select>

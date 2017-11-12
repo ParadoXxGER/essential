@@ -11,7 +11,7 @@ export default class Tags extends React.Component {
 
                   <div className="control" key={tag}>
                     <div className="tags has-addons">
-                      <a className="tag is-success">{tag}</a>
+                      <a className="tag is-link">{tag}</a>
                       <a className="tag is-delete"></a>
                     </div>
                   </div>
