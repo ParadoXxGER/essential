@@ -1,4 +1,6 @@
-class Tags extends React.Component {
+import React from 'react'
+
+export default class Tags extends React.Component {
   render(){
     return (
         <div>
@@ -6,6 +8,7 @@ class Tags extends React.Component {
           <div className="field is-grouped is-grouped-multiline">
             {
               this.props.tags.map(tag => { return (
+
                   <div className="control" key={tag}>
                     <div className="tags has-addons">
                       <a className="tag is-success">{tag}</a>

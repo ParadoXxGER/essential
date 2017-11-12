@@ -1,4 +1,5 @@
-class PostCommentArea extends React.Component {
+import React from 'react'
+export default class PostCommentArea extends React.Component {
     render (){
 
         return(

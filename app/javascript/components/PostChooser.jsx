@@ -1,4 +1,6 @@
-class PostChooser extends React.Component {
+import React from 'react'
+
+export default class PostChooser extends React.Component {
   render (){
 
     return(

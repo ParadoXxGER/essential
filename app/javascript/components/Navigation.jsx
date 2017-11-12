@@ -1,4 +1,6 @@
-class Navigation extends React.Component {
+import React from 'react'
+
+export default class Navigation extends React.Component {
     render() {
         function scrollUp(e) {
             e.preventDefault();

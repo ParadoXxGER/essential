@@ -1,4 +1,10 @@
-class Newsfeed extends React.Component {
+import React from 'react'
+import LoadingSpinner from './LoadingSpinner'
+import NewsfeedNavigation from './NewsfeedNavigation'
+import PostListItem from './PostListItem'
+import PostChooser from './PostChooser'
+
+export default class Newsfeed extends React.Component {
 
     constructor(props) {
         super(props);
@@ -49,7 +55,7 @@ class Newsfeed extends React.Component {
               {
                   this.state.items.map(item => {
                       return (
-                          <PostListItem obj={item} key={item.id} />
+                          <PostListItem obj={item} key={item.id+""+item.type} />
                       )
                   })
               }

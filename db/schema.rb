@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102095722) do
+ActiveRecord::Schema.define(version: 20171110151542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 20171102095722) do
     t.index ["post_id"], name: "index_file_posts_on_post_id"
   end
 
+  create_table "filters", force: :cascade do |t|
+    t.string "text"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_filters_on_post_id"
+    t.index ["text"], name: "index_filters_on_text"
+  end
+
   create_table "photo_album_posts", force: :cascade do |t|
     t.string "photo_url"
     t.bigint "post_id"
@@ -50,6 +59,15 @@ ActiveRecord::Schema.define(version: 20171102095722) do
     t.index ["content"], name: "index_posts_on_content"
     t.index ["slug"], name: "index_posts_on_slug"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "text"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_tags_on_post_id"
+    t.index ["text"], name: "index_tags_on_text"
   end
 
   create_table "text_posts", force: :cascade do |t|
@@ -82,8 +100,10 @@ ActiveRecord::Schema.define(version: 20171102095722) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "file_posts", "posts"
+  add_foreign_key "filters", "posts"
   add_foreign_key "photo_album_posts", "posts"
   add_foreign_key "posts", "users"
+  add_foreign_key "tags", "posts"
   add_foreign_key "text_posts", "posts"
   cti_create_view('FilePost')
   cti_create_view('PhotoAlbumPost')

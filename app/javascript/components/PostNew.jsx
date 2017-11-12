@@ -1,4 +1,5 @@
-class PostNew extends React.Component {
+import React from 'react'
+export default class PostNew extends React.Component {
 
   constructor(props) {
     super(props);

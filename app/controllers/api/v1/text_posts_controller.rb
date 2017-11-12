@@ -22,8 +22,6 @@ module Api::V1
     end
 
     def create
-      invalidate_cache_by_tag("*")
-      invalidate_cache_by_filter("*")
       tpost = TextPost.new
       tpost.user_id = 1
       tpost.content = params[:text]
@@ -38,22 +36,6 @@ module Api::V1
 
     def permit_pagination
       params.permit(:page, :posts_count)
-    end
-
-    def invalidate_cache_by_filter(filter)
-      keys = REDIS_CLIENT.keys("*tag-#{filter}*")
-      keys.each do |key|
-        puts key
-        REDIS_CLIENT.del(key)
-      end
-    end
-
-    def invalidate_cache_by_tag(tag)
-      keys = REDIS_CLIENT.keys("*tag-#{tag}*")
-      keys.each do |key|
-        puts key
-        REDIS_CLIENT.del(key)
-      end
     end
 
   end

@@ -4,8 +4,7 @@ module Api::V1
     before_action :permit_params, only: [:index]
 
     def index
-      if REDIS_CLIENT.exists(cachekey)
-
+      if REDIS_CACHE_CLIENT.exists(cachekey)
         setHeader('x-cache-hit', cachekey)
         return serve_cached_newsfeed(cachekey)
       end
@@ -18,10 +17,31 @@ module Api::V1
 
     def serve_newsfeed_and_populate_cache
       @posts = []
-      @posts += PhotoAlbumPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
-      @posts += TextPost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
-      @posts += FilePost.includes(:user, :comments).references(:user, :comments).page(params[:page]).per(params[:posts]).order(created_at: :desc)
+      @posts += PhotoAlbumPost
+                  .includes(:user, :comments, :tags, :filter)
+                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page])
+                  .per(params[:posts])
+                  .order(created_at: :desc)
+      @posts += TextPost
+                  .includes(:user, :comments, :tags, :filter)
+                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page]).per(params[:posts])
+                  .order(created_at: :desc)
+
+      @posts += FilePost
+                  .includes(:user, :comments, :tags, :filter)
+                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page]).per(params[:posts])
+                  .per(params[:posts])
+                  .order(created_at: :desc)
+
+
       @posts.sort_by { |post| Date.parse(post.created_at.to_s)}
+
       @posts = @posts.to_json(
         include: {
           user: {
@@ -31,9 +51,17 @@ module Api::V1
             include: {
               user: { only: [:username, :id, :firstname, :lastname]}
             }
+          },
+          tags: {
+            only: [:text]
+          },
+          filter: {
+            only: [:text]
           }
-      })
-      REDIS_CLIENT.set(cachekey, @posts)
+      },
+        methods: :type
+      )
+      REDIS_CACHE_CLIENT.set(cachekey, @posts)
       render json: @posts
 
     end
@@ -64,7 +92,7 @@ module Api::V1
     end
 
     def serve_cached_newsfeed(cachekey)
-      render json: JSON.parse(REDIS_CLIENT.get(cachekey))
+      render json: JSON.parse(REDIS_CACHE_CLIENT.get(cachekey))
     end
 
     def setHeader(key, value)

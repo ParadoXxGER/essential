@@ -1,4 +1,6 @@
-class PostListItem extends React.Component {
+import React from 'react'
+
+export default class PostListItem extends React.Component {
   constructor(){
       super();
       this.state = {commentArea: { active: false}}
@@ -82,15 +84,12 @@ class PostListItem extends React.Component {
                         </p>
                     </div>
                     <div className="tags">
-                        <a className="tag">One</a>
-                        <a className="tag">Two</a>
-                        <a className="tag">Three</a>
-                        <a className="tag">Four</a>
-                        <a className="tag">Five</a>
-                        <a className="tag">Five</a>
-                        <a className="tag">Five</a>
-                        <a className="tag">Five</a>
-                        <a className="tag">Five</a>
+                      {
+                        this.props.obj.filter.map(filter => { return ( <a className="tag is-success" key={filter.id}>{filter.text}</a>)})
+                      }
+                      {
+                        this.props.obj.tags.map(tag => { return ( <a className="tag is-info" key={tag.id}>{tag.text}</a>)})
+                      }
                     </div>
                     {
                         this.props.obj.comments.map(comment => { return ( <PostComment obj={comment} key={comment.id} />)})

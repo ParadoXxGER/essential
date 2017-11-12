@@ -5,12 +5,14 @@
     %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1'}/
     %title Essential
     = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_pack_tag 'application'
+    = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
+
   %body{style: 'margin: none;'}
     %section.hero.is-fullheight{style: 'background: #F2F6FA;'}
       %div.hero-head{style: 'position: fixed; z-index: 9999; width: 100%; background: white;'}
-        =react_component('Navigation')
+        = react_component 'Navigation'
       %div.hero-body{style: 'padding-left: 12px; padding-right: 12px; padding-top: 12px;'}
         %div.container.is-fluid
           =yield

@@ -1,4 +1,10 @@
-class Essential extends React.Component {
+import React from 'react'
+import Filter from './Filter'
+import Newsfeed from './Newsfeed'
+import Tags from './Tags'
+import Lockscreen from './Lockscreen'
+
+export default class Essential extends React.Component {
 
   constructor(){
     super();
