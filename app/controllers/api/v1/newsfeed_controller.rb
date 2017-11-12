@@ -4,9 +4,14 @@ module Api::V1
     before_action :permit_params, only: [:index]
 
     def index
+
       if REDIS_CACHE_CLIENT.exists(cachekey)
         setHeader('X-Cache-Hit', cachekey)
         return serve_cached_newsfeed(cachekey)
+      end
+
+      if params[:filter] == 'all'
+        return serve_newsfeed_all
       end
 
       setHeader('X-Cache-Hit', cachekey)
@@ -14,6 +19,48 @@ module Api::V1
     end
 
     private
+
+    def serve_newsfeed_all
+      @posts = []
+      @posts += PhotoAlbumPost
+                  .includes(:user, :comments, :tags, :filter)
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page])
+                  .per(params[:posts])
+                  .order(created_at: :desc)
+      @posts += TextPost
+                  .includes(:user, :comments, :tags, :filter)
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page]).per(params[:posts])
+                  .order(created_at: :desc)
+      @posts += FilePost
+                  .includes(:user, :comments, :tags, :filter)
+                  .references(:user, :comments, :tags, :filter)
+                  .page(params[:page]).per(params[:posts])
+                  .per(params[:posts])
+                  .order(created_at: :desc)
+
+      @posts = @posts.to_json(
+        include: {
+          user: {
+            only: [:username, :id, :firstname, :lastname]
+          },
+          comments: {
+            include: {
+              user: { only: [:username, :id, :firstname, :lastname]}
+            }
+          },
+          tags: {
+            only: [:text, :id]
+          },
+          filter: {
+            only: [:text, :id]
+          }
+        },
+        methods: :type
+      )
+      render json: @posts
+    end
 
     def serve_newsfeed_and_populate_cache
       @posts = []
@@ -39,9 +86,6 @@ module Api::V1
                   .per(params[:posts])
                   .order(created_at: :desc)
 
-
-      @posts.sort_by { |post| Date.parse(post.created_at.to_s)}
-
       @posts = @posts.to_json(
         include: {
           user: {
@@ -61,6 +105,7 @@ module Api::V1
       },
         methods: :type
       )
+
       REDIS_CACHE_CLIENT.set(cachekey, @posts)
       render json: @posts
 
