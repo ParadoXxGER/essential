@@ -3,7 +3,7 @@ import Filter from './Filter'
 import Newsfeed from './Newsfeed'
 import Tags from './Tags'
 import Lockscreen from './Lockscreen'
-
+import NewsfeedDateChooser from './NewsfeedDateChooser'
 export default class Essential extends React.Component {
 
   constructor(){
@@ -38,14 +38,18 @@ export default class Essential extends React.Component {
     return(
       <div className="columns" style={{ paddingTop: "60px"}}>
         <div className="column is-2 is-hidden-mobile">
-          <Filter filter={this.props.filter}></Filter>
-          <hr></hr>
-          <Tags tags={this.props.tags}></Tags>
         </div>
         <div className="column is-8">
           <div className="box" style={{padding: "15px", minHeight: "100vh"}}>
             <Newsfeed></Newsfeed>
           </div>
+        </div>
+        <div className="column is-2 is-hidden-mobile">
+          <Filter filter={this.props.filter}></Filter>
+          <hr/>
+          <Tags tags={this.props.tags}></Tags>
+          <hr/>
+          <NewsfeedDateChooser/>
         </div>
       </div>
     )
