@@ -2,6 +2,8 @@ FROM ruby:2.4.2
 
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
+RUN npm install -g yarn
+
 COPY . /home/essential/
 
 RUN chmod +x /home/essential/entrypoint.sh
