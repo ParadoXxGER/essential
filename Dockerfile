@@ -4,6 +4,8 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs np
 
 RUN npm install -g yarn
 
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
 COPY . /home/essential/
 
 RUN chmod +x /home/essential/entrypoint.sh
