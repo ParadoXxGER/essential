@@ -24,7 +24,6 @@ module Api::V1
     end
 
     def add_filter_to(post)
-      byebug
       params[:filter].split(' ').each do |filter|
         Filter.create(text: filter, post: post)
       end
