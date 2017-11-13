@@ -2,7 +2,7 @@ import React from 'react'
 import LoadingSpinner from './LoadingSpinner'
 import NewsfeedNavigation from './NewsfeedNavigation'
 import PostListItem from './PostListItem'
-import PostChooser from './PostChooser'
+import PostNew from "./PostNew";
 
 export default class Newsfeed extends React.Component {
 
@@ -45,7 +45,7 @@ export default class Newsfeed extends React.Component {
               </hr>
               {
                 this.state.showNewPostArea === true &&
-                <PostChooser/>
+                <PostNew/>
               }
 
               {

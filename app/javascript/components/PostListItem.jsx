@@ -1,7 +1,7 @@
 import React from 'react'
 
 import PostCommentArea from './PostCommentArea'
-
+import PostComment from './PostComment'
 
 export default class PostListItem extends React.Component {
   constructor(){
@@ -30,7 +30,6 @@ export default class PostListItem extends React.Component {
                             <div className="level-item">
                               <strong>
                                 {this.props.obj.user.firstname + " " + this.props.obj.user.lastname}
-                                <small> wrote:</small>
                               </strong>
                             </div>
                         </div>

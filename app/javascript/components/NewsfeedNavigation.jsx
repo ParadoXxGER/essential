@@ -1,4 +1,5 @@
 import React from 'react'
+import NewPostChooser from "./NewPostChooser";
 
 export default class NewsfeedNavigation extends React.Component {
 
@@ -6,26 +7,16 @@ export default class NewsfeedNavigation extends React.Component {
     super(props);
   }
 
-  onToggleNewPostArea() {
-    this.props.toggleNewPostArea();
-  }
-
   render(){
     return (
         <span>
-          <nav className="level">
+          <nav className="level is-mobile">
             <div className="level-left">
               <h2 className="title">Newsfeed:</h2>
             </div>
             <div className="level-right">
               <div className="level-item">
-                <a className="button has-icon" onClick={this.onToggleNewPostArea.bind(this)}>
-                  <span>New</span>
-                  <span className="icon">
-                    <i className="fa fa-caret-down">
-                    </i>
-                  </span>
-                </a>
+                <NewPostChooser toggleNewPostArea={this.props.toggleNewPostArea}/>
               </div>
             </div>
           </nav>

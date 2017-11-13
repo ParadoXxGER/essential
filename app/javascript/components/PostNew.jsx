@@ -1,4 +1,5 @@
 import React from 'react'
+
 export default class PostNew extends React.Component {
 
   constructor(props) {
@@ -8,12 +9,14 @@ export default class PostNew extends React.Component {
         text: ""
       }
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   createPost(){
-    fetch('/api/v1/text_posts', {
+    fetch('/api/v1/text_posts'+window.location.search, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -23,7 +26,7 @@ export default class PostNew extends React.Component {
         "text": this.state.post.text
       })
     }).then(function(response) {
-      this.props.toggleNewPostArea();
+      //this.props.toggleNewPostArea();
     }).then(function(data) {
 
     });
