@@ -4,34 +4,34 @@ module Api::V1
     before_action :permit_input, only: [:create]
     before_action :permit_pagination, only: [:index]
 
-    # GET /text_posts
-    # GET /text_posts.json
-    def index
-      @posts = TextPost.includes(:user, :comments).references(:user, :comments).order(created_at: :desc).page(params[:page]).per(params[:posts_count])
-      render json: @posts.to_json(
-        include: {
-          user: {
-            only: [:username, :id, :firstname, :lastname]
-          },
-          comments: {
-            include: {
-              user: { only: [:username, :id, :firstname, :lastname]}
-            }
-          }
-        })
-    end
-
     def create
       tpost = TextPost.new
-      tpost.user_id = 1
+      tpost.user_id = User.first.id
       tpost.content = params[:text]
-      tpost.save
+
+      if tpost.save
+        add_filter_to(tpost)
+        add_tags_to(tpost)
+      end
     end
 
     private
 
+    def add_tags_to(post)
+      params[:tags].split(' ').each do |tag|
+        Tag.create(text: tag, post: post)
+      end
+    end
+
+    def add_filter_to(post)
+      byebug
+      params[:filter].split(' ').each do |filter|
+        Filter.create(text: filter, post: post)
+      end
+    end
+
     def permit_input
-      params.permit(:text)
+      params.permit(:text, :tags, :filter)
     end
 
     def permit_pagination

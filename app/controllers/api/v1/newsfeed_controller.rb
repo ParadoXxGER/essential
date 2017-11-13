@@ -1,17 +1,13 @@
 module Api::V1
   class NewsfeedController < ApiController
 
-    before_action :permit_params, only: [:index]
+    before_action :permit_params
 
     def index
 
       if REDIS_CACHE_CLIENT.exists(cachekey)
         setHeader('X-Cache-Hit', cachekey)
         return serve_cached_newsfeed(cachekey)
-      end
-
-      if params[:filter] == 'all'
-        return serve_newsfeed_all
       end
 
       setHeader('X-Cache-Hit', cachekey)
@@ -31,12 +27,13 @@ module Api::V1
       @posts += TextPost
                   .includes(:user, :comments, :tags, :filter)
                   .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
+                  .page(params[:page])
+                  .per(params[:posts])
                   .order(created_at: :desc)
       @posts += FilePost
                   .includes(:user, :comments, :tags, :filter)
                   .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
+                  .page(params[:page])
                   .per(params[:posts])
                   .order(created_at: :desc)
 
@@ -107,6 +104,8 @@ module Api::V1
       )
 
       REDIS_CACHE_CLIENT.set(cachekey, @posts)
+      puts "CACHE SET: #{cachekey}"
+
       render json: @posts
 
     end
@@ -121,6 +120,8 @@ module Api::V1
       params.permit(:filter)
       params.permit(:page)
       params.permit(:posts)
+      params.permit(:to)
+      params.permit(:from)
     end
 
     def cachekey

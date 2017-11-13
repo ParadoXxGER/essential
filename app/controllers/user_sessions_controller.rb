@@ -13,7 +13,7 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'none')
+      redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all', from: '2017-11-02', to: '2017-11-03')
     else
       render :action => :new
     end
