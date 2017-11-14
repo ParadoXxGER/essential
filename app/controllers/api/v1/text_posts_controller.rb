@@ -6,7 +6,7 @@ module Api::V1
 
     def create
       tpost = TextPost.new
-      tpost.user_id = User.first.id
+      tpost.user = User.first
       tpost.content = params[:text]
 
       if tpost.save
