@@ -2,6 +2,7 @@ module Api::V1
   class NewsfeedController < ApiController
 
     before_action :permit_params
+    before_action :convert_params
 
     def index
 
@@ -16,121 +17,68 @@ module Api::V1
 
     private
 
-    def serve_newsfeed_all
-      @posts = []
-      @posts += PhotoAlbumPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-      @posts += TextPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-      @posts += FilePost
-                  .includes(:user, :comments, :tags, :filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-
-      @posts = @posts.to_json(
-        include: {
-          user: {
-            only: [:username, :id, :firstname, :lastname]
-          },
-          comments: {
-            include: {
-              user: { only: [:username, :id, :firstname, :lastname]}
-            }
-          },
-          tags: {
-            only: [:text, :id]
-          },
-          filter: {
-            only: [:text, :id]
-          }
-        },
-        methods: :type
-      )
-      render json: @posts
-    end
-
     def serve_newsfeed_and_populate_cache
-      @posts = []
-      @posts += PhotoAlbumPost
+      posts = []
+      posts += PhotoAlbumPost
                   .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .where("filters.text IN (?)", @filter)
                   .references(:user, :comments, :tags, :filter)
                   .page(params[:page])
                   .per(params[:posts])
                   .order(created_at: :desc)
-      @posts += TextPost
+      posts += TextPost
                   .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .where("filters.text IN (?)", @filter)
                   .references(:user, :comments, :tags, :filter)
                   .page(params[:page]).per(params[:posts])
                   .order(created_at: :desc)
 
-      @posts += FilePost
+      posts += FilePost
                   .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", params[:filter].split(' '))
+                  .where("filters.text IN (?)", @filter)
                   .references(:user, :comments, :tags, :filter)
                   .page(params[:page]).per(params[:posts])
                   .per(params[:posts])
                   .order(created_at: :desc)
 
-      @posts = @posts.to_json(
-        include: {
-          user: {
-            only: [:username, :id, :firstname, :lastname]
-          },
-          comments: {
-            include: {
-              user: { only: [:username, :id, :firstname, :lastname]}
-            }
-          },
-          tags: {
-            only: [:text]
-          },
-          filter: {
-            only: [:text]
-          }
-      },
-        methods: :type
-      )
+      posts.map do |post|
+        post.weight = 0
+        post.tags.each do |tag|
+          if @tags.include?(tag.text)
+            post.weight += 1
+          else
+            post.weight -= 0.5
+          end
+        end
+        post
+      end
 
-      REDIS_CACHE_CLIENT.set(cachekey, @posts)
+      posts.sort_by!(&:weight).reverse!
+
+      posts = create_response(posts)
+
+      REDIS_CACHE_CLIENT.set(cachekey, posts)
       puts "CACHE SET: #{cachekey}"
 
-      render json: @posts
+      render json: posts
 
     end
 
     def permit_params
-
-      unless params[:tags] || params[:filter] || params[:page] || params[:posts]
-        return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'none')
-      end
-
-      params.permit(:tags)
-      params.permit(:filter)
-      params.permit(:page)
-      params.permit(:posts)
-      params.permit(:to)
-      params.permit(:from)
+      params.permit(:tags).require(:tags)
+      params.permit(:filter).require(:filter)
+      params.permit(:page).require(:page)
+      params.permit(:posts).require(:posts)
+      params.permit(:to).require(:to)
+      params.permit(:from).require(:from)
     end
 
     def cachekey
-
-      filter = params[:filter].split(' ').map do |filter|
+      filter = @filter.map do |filter|
         filter = "filter-#{filter}"
       end.sort.join(' ')
 
-      tags = params[:tags].split(' ').map do |tag|
+      tags = @tags.map do |tag|
         tag = "tag-#{tag}"
       end.sort.join(' ')
 
@@ -145,5 +93,31 @@ module Api::V1
       response.set_header(key, value)
     end
 
+    def convert_params
+      @tags = params[:tags].split(' ')
+      @filter = params[:filter].split(' ')
+    end
+
+    def create_response(posts)
+      posts.to_json(
+        include: {
+          user: {
+            only: [:username, :id, :firstname, :lastname]
+          },
+          comments: {
+            include: {
+              user: { only: [:username, :id, :firstname, :lastname]}
+            }
+          },
+          tags: {
+            only: [:text]
+          },
+          filter: {
+            only: [:text]
+          }
+        },
+        methods: [:type, :weight]
+      )
+    end
   end
 end
