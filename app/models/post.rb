@@ -12,7 +12,8 @@ class Post < ApplicationRecord
 
   paginates_per 50
 
-  attr_writer :type
+  attr_accessor :type
   attr_accessor :weight
+  attr_accessor :sort_by
 
 end

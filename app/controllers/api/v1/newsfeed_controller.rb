@@ -53,7 +53,14 @@ module Api::V1
         post
       end
 
-      posts.sort_by!(&:weight).reverse!
+      case post.sort_by
+        when 'date'
+          posts.sort_by!(&:weight).reverse!
+        when 'weight'
+          posts.sort_by!(&:created_at)
+        else
+          posts.sort_by!(&:created_at)
+      end
 
       posts = create_response(posts)
 
