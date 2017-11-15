@@ -16,7 +16,7 @@ export default class PostNew extends React.Component {
   }
 
   createPost(){
-    fetch('/api/v1/text_posts'+window.location.search, {
+    fetch('/api/v1/posts'+window.location.search, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

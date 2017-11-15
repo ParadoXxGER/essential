@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   namespace :api, { defaults: { format: :json } } do
     namespace :v1 do
       # Remember! Do never manually access Parental Class POSTS!!!! Only its childs!
-      resources :photo_album_posts
-      resources :file_posts
-      resources :text_posts
+      resources :posts
       resources :newsfeed
     end
   end

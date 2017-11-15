@@ -12,37 +12,24 @@ module Api::V1
       end
 
       setHeader('X-Cache-Hit', cachekey)
-      serve_newsfeed_and_populate_cache
+      serve_newsfeed
     end
 
     private
 
-    def serve_newsfeed_and_populate_cache
+    def serve_newsfeed
       posts = []
-      posts += PhotoAlbumPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-      posts += TextPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
-                  .order(created_at: :desc)
-
-      posts += FilePost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
+      posts += Post
+              .includes(:user, :comments, :tags, :filter, :links, :photos)
+              .where("filters.text IN (?)", @filter)
+              .references(:user, :comments, :tags, :filter)
+              .page(params[:page])
+              .per(params[:posts])
+              .order(created_at: :desc)
 
       posts.map do |post|
         post.weight = 0
+        post.created_at = post.created_at.strftime("%B %d %Y %H:%M")
         post.tags.each do |tag|
           if @tags.include?(tag.text)
             post.weight += 1
@@ -50,22 +37,22 @@ module Api::V1
             post.weight -= 0.5
           end
         end
+        post.tags = post.tags.sort_by(&:text).reverse!
         post
       end
 
-      case post.sort_by
+      case @sort_by
         when 'date'
-          posts.sort_by!(&:weight).reverse!
+          posts
         when 'weight'
-          posts.sort_by!(&:created_at)
+          posts.sort_by!(&:weight).reverse!
         else
-          posts.sort_by!(&:created_at)
+          posts
       end
 
       posts = create_response(posts)
 
-      REDIS_CACHE_CLIENT.set(cachekey, posts)
-      puts "CACHE SET: #{cachekey}"
+      populate_cache(cachekey, posts)
 
       render json: posts
 
@@ -78,21 +65,23 @@ module Api::V1
       params.permit(:posts).require(:posts)
       params.permit(:to).require(:to)
       params.permit(:from).require(:from)
+      params.permit(:sort_by).require(:sort_by)
     end
 
     def cachekey
       filter = @filter.map do |filter|
         filter = "filter-#{filter}"
-      end.sort.join(' ')
+      end.sort!.reverse!.join(' ')
 
       tags = @tags.map do |tag|
         tag = "tag-#{tag}"
-      end.sort.join(' ')
+      end.sort!.reverse!.join(' ')
 
       "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
     end
 
     def serve_cached_newsfeed(cachekey)
+      puts cachekey
       render json: JSON.parse(REDIS_CACHE_CLIENT.get(cachekey))
     end
 
@@ -103,6 +92,13 @@ module Api::V1
     def convert_params
       @tags = params[:tags].split(' ')
       @filter = params[:filter].split(' ')
+      @sort_by = params[:sort_by]
+    end
+
+    def populate_cache(key, value)
+      return if CACHE_ENABLED == 'true'
+      REDIS_CACHE_CLIENT.set(key, value)
+      puts "CACHE SET: #{key}"
     end
 
     def create_response(posts)
@@ -123,7 +119,7 @@ module Api::V1
             only: [:text]
           }
         },
-        methods: [:type, :weight]
+        methods: [:weight]
       )
     end
   end

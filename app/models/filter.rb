@@ -2,6 +2,7 @@ class Filter < ApplicationRecord
   belongs_to :post
 
   after_save :invalidate_cache_by_filter
+  before_destroy :invalidate_cache_by_filter
 
   private
 

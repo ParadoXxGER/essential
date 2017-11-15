@@ -7,5 +7,6 @@ Rails.application.configure do
   RAILS_MAX_THREADS = ENV['RAILS_MAX_THREADS'] || puts('WARNING ====> No RAILS_MAX_THREADS given')
   PORT = ENV['PORT'] || puts('WARNING ====> No PORT given')
   WEB_CONCURRENCY = ENV['WEB_CONCURRENCY'] || puts('WARNING ====> No WEB_CONCURRENCY given')
+  CACHE_ENABLED = ENV['CACHE_ENABLED'] || puts('WARNING ====> No CACHE_ENABLED given')
 
 end

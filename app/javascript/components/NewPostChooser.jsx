@@ -21,7 +21,7 @@ export default class NewPostChooser extends React.Component {
             </button>
           </div>
           <div className="dropdown-menu" id="dropdown-menu" role="menu">
-            <div className="dropdown-content" style={{maxHeight: "70vh", overflowX: "scroll"}}>
+            <div className="dropdown-content" style={{maxHeight: "400px", overflowX: "scroll"}}>
               <a className="dropdown-item has-icon" onClick={this.onToggleNewPostArea.bind(this)}>
                 <p>
                   <span className="icon">

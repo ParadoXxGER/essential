@@ -1,17 +1,17 @@
 module Api::V1
-  class TextPostsController < ApiController
+  class PostsController < ApiController
 
     before_action :permit_input, only: [:create]
     before_action :permit_pagination, only: [:index]
 
     def create
-      tpost = TextPost.new
-      tpost.user = User.first
-      tpost.content = params[:text]
+      post = Post.new
+      post.user = User.first
+      post.content = params[:text]
 
-      if tpost.save
-        add_filter_to(tpost)
-        add_tags_to(tpost)
+      if post.save
+        add_filter_to(post)
+        add_tags_to(post)
       end
     end
 
