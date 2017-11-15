@@ -96,7 +96,7 @@ module Api::V1
     end
 
     def populate_cache(key, value)
-      return if CACHE_ENABLED == 'true'
+      return if CACHE_ENABLED == 'false'
       REDIS_CACHE_CLIENT.set(key, value)
       puts "CACHE SET: #{key}"
     end
