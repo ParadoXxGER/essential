@@ -12,6 +12,8 @@ WORKDIR /home/essential
 
 RUN bundle install --without test development
 
+ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
+
 RUN rake assets:precompile
 
 ENTRYPOINT ["ruby"]
