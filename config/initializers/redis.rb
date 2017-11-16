@@ -1,5 +1,5 @@
 require "redis"
 
 Rails.application.configure do
-  REDIS_CACHE_CLIENT = Redis.new(url: REDIS_CACHE_URL)
+  REDIS_CACHE_CLIENT = Redis.new(url: EssentialConfig::REDIS_CACHE_URL)
 end

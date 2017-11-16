@@ -8,16 +8,12 @@ RUN npm install -g yarn
 
 COPY . /home/essential/
 
-RUN chmod +x /home/essential/entrypoint.sh
-
 WORKDIR /home/essential
 
-RUN bundle install
+RUN bundle install --without test development
 
 RUN rake assets:precompile
 
-ENV RAILS_ENV=production
+ENTRYPOINT ["ruby"]
 
-ENV SECRET_KEY_BASE=dc121303d2eb694a
-
-ENTRYPOINT /home/essential/entrypoint.sh
+CMD ["entrypoint.rb"]

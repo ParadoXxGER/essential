@@ -6,10 +6,6 @@ export default class NewPostChooser extends React.Component {
     super(props);
   }
 
-  onToggleNewPostArea() {
-    this.props.toggleNewPostArea();
-  }
-
   render (){
 
     return(
@@ -22,7 +18,7 @@ export default class NewPostChooser extends React.Component {
           </div>
           <div className="dropdown-menu" id="dropdown-menu" role="menu">
             <div className="dropdown-content" style={{maxHeight: "400px", overflowX: "scroll"}}>
-              <a className="dropdown-item has-icon" onClick={this.onToggleNewPostArea.bind(this)}>
+              <a className="dropdown-item has-icon">
                 <p>
                   <span className="icon">
                    <i className="fa fa-newspaper-o" aria-hidden="true">

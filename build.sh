@@ -1,4 +1,3 @@
 #!/bin/bash
 
-docker build -t paradoxxger/essential-backend:latest . &&
-docker push paradoxxger/essential-backend:latest
+docker-compose -f docker-compose-build.yml up --build --abort-on-container-exit
