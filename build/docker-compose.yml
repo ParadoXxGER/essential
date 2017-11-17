@@ -11,7 +11,9 @@ services:
     image: redis
   essential-backend-build:
     image: paradoxxger/essential-backend:latest
-    build: .
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
     links:
       - essential-redis:redis
       - essential-postgres:postgres
