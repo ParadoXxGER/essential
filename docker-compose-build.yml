@@ -10,6 +10,7 @@ services:
   essential-redis:
     image: redis
   essential-backend-build:
+    image: paradoxxger/essential-backend:latest
     build: .
     links:
       - essential-redis:redis
@@ -24,3 +25,4 @@ services:
       - WEB_CONCURRENCY=1
       - REDIS_CACHE_URL=redis://redis:6379/1
       - CACHE_ENABLED=false
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/essential-test?pool=5

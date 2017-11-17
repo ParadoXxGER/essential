@@ -10,7 +10,7 @@ COPY . /home/essential/
 
 WORKDIR /home/essential
 
-RUN bundle install --without test development
+RUN bundle install --jobs 2
 
 ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
 

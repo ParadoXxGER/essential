@@ -1,5 +1,5 @@
-log
-tmp
-node_modules
-vendor
-.bundle
+log/
+tmp/
+node_modules/
+vendor/
+.bundle/
