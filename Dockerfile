@@ -16,6 +16,6 @@ ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
 
 RUN rake assets:precompile
 
-RUN chmod +x bin/test.sh
+RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["bin/test.sh"]
+ENTRYPOINT ["entrypoint.sh"]
