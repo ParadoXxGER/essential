@@ -1,4 +1,5 @@
 import React from 'react'
+import PostAddonChooser from "./PostAddonChooser";
 
 export default class PostNew extends React.Component {
 
@@ -12,10 +13,16 @@ export default class PostNew extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onToggleNewPostArea = this.onToggleNewPostArea.bind(this);
+    this.onPostCreated = this.onPostCreated.bind(this);
+  }
 
+  onToggleNewPostArea() {
+    this.props.toggleNewPostArea();
   }
 
   createPost(){
+    this.props.showLoadingSpinner();
     fetch('/api/v1/posts'+window.location.search, {
       headers: {
         'Accept': 'application/json',
@@ -25,11 +32,17 @@ export default class PostNew extends React.Component {
       body: JSON.stringify({
         "text": this.state.post.text
       })
-    }).then(function(response) {
-      //this.props.toggleNewPostArea();
+    }).then(() => {
+      this.onToggleNewPostArea();
+      this.onPostCreated();
     }).then(function(data) {
 
-    });
+    })
+    ;
+  }
+
+  onPostCreated(){
+    this.props.getPosts();
   }
 
   handleSubmit(){
@@ -48,14 +61,40 @@ export default class PostNew extends React.Component {
         <div className="media-content">
           <div className="field">
             <p className="control">
-              <textarea className="textarea" onChange={this.handleChange} value={this.state.post.text} placeholder="Write something!" rows="6"/>
+              <textarea className="textarea" onChange={this.handleChange} value={this.state.post.text} placeholder="Write something!" rows="4"/>
             </p>
           </div>
-          <div className="field">
-            <p className="control">
-              <button onClick={this.handleSubmit} className="button">Create</button>
-            </p>
-          </div>
+          <nav className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <PostAddonChooser/>
+              </div>
+            </div>
+            <div className="level-right">
+              <div className="level-item">
+                <p className="field">
+                  <button className="button is-outlined is-danger" onClick={this.onToggleNewPostArea}>
+                    <span className="icon">
+                      <i className="fa fa-times">
+
+                      </i>
+                    </span>
+                    <span>Cancel</span>
+                  </button>
+                </p>
+              </div>
+              <div className="level-item">
+                <button onClick={this.handleSubmit} className="button is-outlined is-success">
+                  <span className="icon">
+                    <i className="fa fa-save">
+
+                    </i>
+                  </span>
+                  <span>Save</span>
+                </button>
+              </div>
+            </div>
+          </nav>
         </div>
       </article>
     )

@@ -10,9 +10,12 @@ export default class Newsfeed extends React.Component {
         super(props);
         this.state = { items: [], loading: true, showNewPostArea: false };
         this.toggleNewPostArea = this.toggleNewPostArea.bind(this);
+        this.getPosts = this.getPosts.bind(this);
+        this.mountState = this.mountState.bind(this);
+        this.showLoadingSpinner = this.showLoadingSpinner.bind(this);
     }
 
-    mountResult(state){
+    mountState(state){
       this.setState(state);
     }
 
@@ -21,14 +24,22 @@ export default class Newsfeed extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/v1/newsfeed'+window.location.search)
-        .then(response => response.json())
-        .then(json => {
-          this.mountResult({ items: json, loading: false})
-        })
-        .catch(error => {
+      this.getPosts()
+    }
+
+    showLoadingSpinner() {
+      this.mountState({ items: [], loading: true})
+    }
+
+    getPosts(){
+      fetch('/api/v1/newsfeed'+window.location.search)
+          .then(response => response.json())
+          .then(json => {
+            this.mountState({ items: json, loading: false})
+          })
+          .catch(error => {
             console.log(error)
-        })
+          })
     }
 
     render() {
@@ -45,7 +56,7 @@ export default class Newsfeed extends React.Component {
               </hr>
               {
                 this.state.showNewPostArea === true &&
-                <PostNew/>
+                <PostNew showLoadingSpinner={this.showLoadingSpinner}  getPosts={this.getPosts} toggleNewPostArea={this.toggleNewPostArea}/>
               }
 
               {

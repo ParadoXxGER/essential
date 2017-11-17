@@ -6,57 +6,24 @@ module Api::V1
 
     def index
 
-      if REDIS_CACHE_CLIENT.exists(cachekey)
-        setHeader('X-Cache-Hit', cachekey)
-        return serve_cached_newsfeed(cachekey)
+      newsfeed = Newsfeed.new(
+        cachekey,
+        @filter,
+        @tags,
+        @page,
+        @posts_count
+      )
+
+      if newsfeed.cached
+        setHeader('X-Cache-Hit', newsfeed.cache_key)
+        return render json: newsfeed.posts
       end
 
-      setHeader('X-Cache-Hit', cachekey)
-      serve_newsfeed
+      setHeader('X-Cache-Miss', newsfeed.cache_key)
+      render json: newsfeed.posts
     end
 
     private
-
-    def serve_newsfeed
-      posts = []
-      posts += Post
-              .includes(:user, :comments, :tags, :filter, :links, :photos)
-              .where("filters.text IN (?)", @filter)
-              .references(:user, :comments, :tags, :filter)
-              .page(params[:page])
-              .per(params[:posts])
-              .order(created_at: :desc)
-
-      posts.map do |post|
-        post.weight = 0
-        post.created_at = post.created_at.strftime("%B %d %Y %H:%M")
-        post.tags.each do |tag|
-          if @tags.include?(tag.text)
-            post.weight += 1
-          else
-            post.weight -= 0.5
-          end
-        end
-        post.tags = post.tags.sort_by(&:text).reverse!
-        post
-      end
-
-      case @sort_by
-        when 'date'
-          posts
-        when 'weight'
-          posts.sort_by!(&:weight).reverse!
-        else
-          posts
-      end
-
-      posts = create_response(posts)
-
-      populate_cache(cachekey, posts)
-
-      render json: posts
-
-    end
 
     def permit_params
       params.permit(:tags).require(:tags)
@@ -80,11 +47,6 @@ module Api::V1
       "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
     end
 
-    def serve_cached_newsfeed(cachekey)
-      puts cachekey
-      render json: JSON.parse(REDIS_CACHE_CLIENT.get(cachekey))
-    end
-
     def setHeader(key, value)
       response.set_header(key, value)
     end
@@ -93,34 +55,9 @@ module Api::V1
       @tags = params[:tags].split(' ')
       @filter = params[:filter].split(' ')
       @sort_by = params[:sort_by]
+      @posts_count = params[:posts]
+      @page = params[:page]
     end
 
-    def populate_cache(key, value)
-      return if CACHE_ENABLED == 'false'
-      REDIS_CACHE_CLIENT.set(key, value)
-      puts "CACHE SET: #{key}"
-    end
-
-    def create_response(posts)
-      posts.to_json(
-        include: {
-          user: {
-            only: [:username, :id, :firstname, :lastname]
-          },
-          comments: {
-            include: {
-              user: { only: [:username, :id, :firstname, :lastname]}
-            }
-          },
-          tags: {
-            only: [:text]
-          },
-          filter: {
-            only: [:text]
-          }
-        },
-        methods: [:weight]
-      )
-    end
   end
 end
