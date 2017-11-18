@@ -16,18 +16,16 @@ end
     Timeout.timeout(30) do
       begin
         Socket.tcp(service.host, service.port, connect_timeout: 5)
-      rescue TimeoutError
-        puts "ERROR: ====> #{service.host}:#{service.port} Net unreachable!"
-        sleep 5
-        retry
       rescue StandardError
         puts "ERROR: ====> #{service.host}:#{service.port} An error occurred!"
         sleep 5
         retry
       end
     end
-  rescue Timeout::TimeoutError
+  rescue Timeout::Error
     puts "ERROR: ====> All operations timed out!"
     exit 255
   end
 end
+
+exit 0

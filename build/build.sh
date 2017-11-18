@@ -4,4 +4,6 @@ set -e
 
 docker-compose up --build --abort-on-container-exit
 
-echo "Worked!"
+echo "################ SUCCESS ################"
+
+docker build -t paradoxxger/essential-backend:latest ../

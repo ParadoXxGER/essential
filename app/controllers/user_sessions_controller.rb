@@ -15,7 +15,7 @@ class UserSessionsController < ApplicationController
     if @user_session.save
       redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all', from: '2017-11-02', to: '2017-11-03', sort_by: 'date')
     else
-      render :action => :new
+      redirect_to '/login'
     end
   end
 

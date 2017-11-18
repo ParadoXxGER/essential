@@ -6,11 +6,13 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
 RUN npm install -g yarn
 
+WORKDIR /home/essential/
+
+COPY Gemfile* /home/essential/
+
+RUN bundle install
+
 COPY . /home/essential/
-
-WORKDIR /home/essential
-
-RUN bundle install --jobs 2
 
 ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
 

@@ -56,8 +56,6 @@ ActiveRecord::Schema.define(version: 20171114201301) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "category"
-    t.index ["category"], name: "index_posts_on_category"
     t.index ["content"], name: "index_posts_on_content"
     t.index ["slug"], name: "index_posts_on_slug"
     t.index ["user_id"], name: "index_posts_on_user_id"

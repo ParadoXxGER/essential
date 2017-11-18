@@ -1,4 +1,4 @@
-module RedisUtils
+module Redis
 
   def set(key, value)
     return if precheck_fails?
