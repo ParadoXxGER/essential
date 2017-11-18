@@ -1,38 +1,25 @@
 import React from 'react'
 
-export default class NewPostChooser extends React.Component {
+export default class PostAddonChooser extends React.Component {
 
   constructor(props){
     super(props);
-  }
-
-  onToggleNewPostArea() {
-    this.props.toggleNewPostArea();
   }
 
   render (){
 
     return(
       <div>
-        <div className="dropdown is-hoverable is-right">
+        <div className="dropdown is-hoverable">
           <div className="dropdown-trigger">
             <button className="button has-icon" aria-haspopup="true" aria-controls="dropdown-menu">
-              New
+              <span className="icon">
+                <i className="fa fa-plus"></i>
+              </span>
             </button>
           </div>
           <div className="dropdown-menu" id="dropdown-menu" role="menu">
-            <div className="dropdown-content" style={{maxHeight: "70vh", overflowX: "scroll"}}>
-              <a className="dropdown-item has-icon" onClick={this.onToggleNewPostArea.bind(this)}>
-                <p>
-                  <span className="icon">
-                   <i className="fa fa-newspaper-o" aria-hidden="true">
-                   </i>
-                  </span>
-                  <strong>Text</strong>
-                  <br/>
-                  <small>A simple text post</small>
-                </p>
-              </a>
+            <div className="dropdown-content" style={{maxHeight: "200px", overflowX: "scroll"}}>
               <a className="dropdown-item has-icon">
                 <p>
                   <span className="icon">

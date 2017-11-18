@@ -79,7 +79,7 @@ export default class PostListItem extends React.Component {
                         </div>
                     </nav>
                     <div className="content">
-                        <p>
+                        <p style={{ wordBreak: 'break-all' }}>
                             {this.props.obj.content}
                             <br />
                             <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · {this.props.obj.created_at}</small>

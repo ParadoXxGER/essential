@@ -18,10 +18,6 @@ ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
 
 RUN rake assets:precompile
 
-RUN npm remove -g yarn
+RUN chmod +x bin/test.sh
 
-RUN apt-get autoremove -y build-essential libpq-dev nodejs
-
-RUN chmod +x entrypoint.sh
-
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["bin/test.sh"]

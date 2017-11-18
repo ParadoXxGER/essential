@@ -6,70 +6,24 @@ module Api::V1
 
     def index
 
-      if REDIS_CACHE_CLIENT.exists(cachekey)
-        setHeader('X-Cache-Hit', cachekey)
-        return serve_cached_newsfeed(cachekey)
+      newsfeed = Newsfeed.new(
+        cachekey,
+        @filter,
+        @tags,
+        @page,
+        @posts_count
+      )
+
+      if newsfeed.cached
+        setHeader('X-Cache-Hit', newsfeed.cache_key)
+        return render json: newsfeed.posts
       end
 
-      setHeader('X-Cache-Hit', cachekey)
-      serve_newsfeed_and_populate_cache
+      setHeader('X-Cache-Miss', newsfeed.cache_key)
+      render json: newsfeed.posts
     end
 
     private
-
-    def serve_newsfeed_and_populate_cache
-      posts = []
-      posts += PhotoAlbumPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-      posts += TextPost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
-                  .order(created_at: :desc)
-
-      posts += FilePost
-                  .includes(:user, :comments, :tags, :filter)
-                  .where("filters.text IN (?)", @filter)
-                  .references(:user, :comments, :tags, :filter)
-                  .page(params[:page]).per(params[:posts])
-                  .per(params[:posts])
-                  .order(created_at: :desc)
-
-      posts.map do |post|
-        post.weight = 0
-        post.tags.each do |tag|
-          if @tags.include?(tag.text)
-            post.weight += 1
-          else
-            post.weight -= 0.5
-          end
-        end
-        post
-      end
-
-      case post.sort_by
-        when 'date'
-          posts.sort_by!(&:weight).reverse!
-        when 'weight'
-          posts.sort_by!(&:created_at)
-        else
-          posts.sort_by!(&:created_at)
-      end
-
-      posts = create_response(posts)
-
-      REDIS_CACHE_CLIENT.set(cachekey, posts)
-      puts "CACHE SET: #{cachekey}"
-
-      render json: posts
-
-    end
 
     def permit_params
       params.permit(:tags).require(:tags)
@@ -78,22 +32,19 @@ module Api::V1
       params.permit(:posts).require(:posts)
       params.permit(:to).require(:to)
       params.permit(:from).require(:from)
+      params.permit(:sort_by).require(:sort_by)
     end
 
     def cachekey
       filter = @filter.map do |filter|
         filter = "filter-#{filter}"
-      end.sort.join(' ')
+      end.sort!.reverse!.join(' ')
 
       tags = @tags.map do |tag|
         tag = "tag-#{tag}"
-      end.sort.join(' ')
+      end.sort!.reverse!.join(' ')
 
       "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
-    end
-
-    def serve_cached_newsfeed(cachekey)
-      render json: JSON.parse(REDIS_CACHE_CLIENT.get(cachekey))
     end
 
     def setHeader(key, value)
@@ -103,28 +54,10 @@ module Api::V1
     def convert_params
       @tags = params[:tags].split(' ')
       @filter = params[:filter].split(' ')
+      @sort_by = params[:sort_by]
+      @posts_count = params[:posts]
+      @page = params[:page]
     end
 
-    def create_response(posts)
-      posts.to_json(
-        include: {
-          user: {
-            only: [:username, :id, :firstname, :lastname]
-          },
-          comments: {
-            include: {
-              user: { only: [:username, :id, :firstname, :lastname]}
-            }
-          },
-          tags: {
-            only: [:text]
-          },
-          filter: {
-            only: [:text]
-          }
-        },
-        methods: [:type, :weight]
-      )
-    end
   end
 end

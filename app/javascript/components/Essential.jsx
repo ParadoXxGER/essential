@@ -4,6 +4,9 @@ import Newsfeed from './Newsfeed'
 import Tags from './Tags'
 import Lockscreen from './Lockscreen'
 import NewsfeedDateChooser from './NewsfeedDateChooser'
+import SortByChooser from './SortByChooser'
+
+
 export default class Essential extends React.Component {
 
   constructor(){
@@ -45,6 +48,8 @@ export default class Essential extends React.Component {
           </div>
         </div>
         <div className="column is-2 is-hidden-mobile">
+          <SortByChooser/>
+          <hr/>
           <Filter filter={this.props.filter}></Filter>
           <hr/>
           <Tags tags={this.props.tags}></Tags>

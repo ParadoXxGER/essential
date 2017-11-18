@@ -1,1 +1,1 @@
-Essential::Application.config.session_store :redis_store, servers: [REDIS_SESSION_URL]
+Essential::Application.config.session_store :redis_store, servers: [EssentialConfig::REDIS_SESSION_URL]

@@ -1,10 +1,13 @@
 import React from 'react'
-import NewPostChooser from "./NewPostChooser";
 
 export default class NewsfeedNavigation extends React.Component {
 
   constructor(props) {
     super(props);
+  }
+
+  onToggleNewPostArea() {
+    this.props.toggleNewPostArea();
   }
 
   render(){
@@ -16,7 +19,9 @@ export default class NewsfeedNavigation extends React.Component {
             </div>
             <div className="level-right">
               <div className="level-item">
-                <NewPostChooser toggleNewPostArea={this.props.toggleNewPostArea}/>
+                <button className="button" onClick={this.onToggleNewPostArea.bind(this)}>
+                  Create
+                </button>
               </div>
             </div>
           </nav>

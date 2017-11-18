@@ -17,14 +17,17 @@ class NewsfeedController < ApplicationController
 
   def permit_params
 
-    unless params[:tags] || params[:filter] || params[:page] || params[:posts]
-      return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all', from: '2017-11-01', to: '2017-11-02')
+    unless params[:tags] || params[:filter] || params[:page] || params[:posts] || params[:from] || params[:to] || params[:sort_by]
+      return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all', from: '2017-11-01', to: '2017-11-02', sort_by: 'date')
     end
 
-    params.permit(:tags)
-    params.permit(:filter)
-    params.permit(:page)
-    params.permit(:posts)
+    params.permit(:tags).require(:tags)
+    params.permit(:filter).require(:filter)
+    params.permit(:page).require(:page)
+    params.permit(:posts).require(:posts)
+    params.permit(:from).require(:from)
+    params.permit(:to).require(:to)
+    params.permit(:sort_by).require(:sort_by)
   end
 
 end

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd /home/essential &&
+set -e
 
-rails db:migrate &&
+rails db:migrate
 
 rails s

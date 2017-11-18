@@ -2,6 +2,7 @@ class Tag < ApplicationRecord
   belongs_to :post
 
   after_save :invalidate_cache_by_tag
+  before_destroy :invalidate_cache_by_tag
 
   private
 

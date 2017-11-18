@@ -15,6 +15,7 @@ export default class NewsfeedDateChooser extends React.Component {
               </div>
             </div>
           </div>
+          <hr/>
           <div className="field">
             <h2 className="subtitle">To:</h2>
             <div className="control">
