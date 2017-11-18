@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'rubocop', '~> 0.51.0', require: false
 gem 'webpacker', '~> 3.0'
 gem 'kaminari'
 gem 'redis-rails'
