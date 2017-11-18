@@ -10,6 +10,8 @@ WORKDIR /home/essential/
 
 COPY Gemfile* /home/essential/
 
+ENV RAILS_ENV=production
+
 RUN bundle install
 
 COPY . /home/essential/
