@@ -24,4 +24,4 @@ RUN apt-get autoremove -y build-essential libpq-dev nodejs
 
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/home/essential/entrypoint.sh"]
