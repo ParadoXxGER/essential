@@ -16,8 +16,9 @@ end
     Timeout.timeout(30) do
       begin
         Socket.tcp(service.host, service.port, connect_timeout: 5)
-      rescue StandardError
+      rescue StandardError => e
         puts "ERROR: ====> #{service.host}:#{service.port} An error occurred!"
+        puts "#{e.message.humanize}"
         sleep 5
         retry
       end
