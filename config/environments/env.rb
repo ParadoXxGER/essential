@@ -8,6 +8,6 @@ Rails.application.configure do
     PORT = ENV['PORT'] || puts('WARNING ====> No PORT given')
     WEB_CONCURRENCY = ENV['WEB_CONCURRENCY'] || puts('WARNING ====> No WEB_CONCURRENCY given')
     CACHE_ENABLED = ENV['CACHE_ENABLED'] || puts('WARNING ====> No CACHE_ENABLED given')
-    DATABASE_URL = ENV['DATABASE_URL'] || puts('WARNING ====> No DATABASE_URL given')
+    DATABASE_URL = ENV['DATABASE_URL'] || puts('WARNING ====> No DATABASE_URL given') && exit(255)
   end
 end
