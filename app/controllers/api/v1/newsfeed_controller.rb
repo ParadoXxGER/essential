@@ -13,11 +13,11 @@ module Api::V1
       )
 
       if newsfeed.cached
-        setHeader('X-Cache-Hit', newsfeed.cache_key)
+        set_cache_header('X-Cache-Hit', newsfeed.cache_key)
         return render json: newsfeed.posts
       end
 
-      setHeader('X-Cache-Miss', newsfeed.cache_key)
+      set_cache_header('X-Cache-Miss', newsfeed.cache_key)
       render json: newsfeed.posts
     end
 
@@ -45,7 +45,7 @@ module Api::V1
       "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
     end
 
-    def setHeader(key, value)
+    def set_cache_header(key, value)
       response.set_header(key, value)
     end
 

@@ -40,11 +40,9 @@ export default class Essential extends React.Component {
 
     return(
       <div className="columns" style={{ paddingTop: "60px"}}>
-        <div className="column is-1 is-hidden-mobile">
-        </div>
         <div className="column is-2 is-hidden-mobile">
         </div>
-        <div className="column is-half">
+        <div className="column is-8">
           <div className="box" style={{padding: "15px", minHeight: "100vh"}}>
             <Newsfeed></Newsfeed>
           </div>
@@ -57,8 +55,6 @@ export default class Essential extends React.Component {
           <Tags tags={this.props.tags}></Tags>
           <hr/>
           <NewsfeedDateChooser/>
-        </div>
-        <div className="column is-1 is-hidden-mobile">
         </div>
       </div>
     )
