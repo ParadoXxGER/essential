@@ -6,3 +6,5 @@ Metrics/LineLength:
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
+Documentation:
+  Enabled: false
