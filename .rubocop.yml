@@ -1,0 +1,8 @@
+Metrics/LineLength:
+  Enabled: true
+  Max: 120
+  Include:
+    - 'app/**/*'
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
