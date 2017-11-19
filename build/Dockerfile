@@ -20,9 +20,6 @@ ENV DATABASE_URL="postgresql://postgres:postgres@postgres/essential-test?pool=5"
 
 RUN rake assets:precompile
 
-RUN rubocop app/** test/**  build/** config/**
-
-
 RUN chmod +x bin/test.sh
 
 ENTRYPOINT ["bin/test.sh"]
