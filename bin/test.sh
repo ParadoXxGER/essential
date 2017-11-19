@@ -4,7 +4,7 @@ set -e
 
 ruby build/wait_for_it.rb
 
-rubocop app/** test/**  build/** config/**
+rubocop app/** test/**
 
 rails test
 
