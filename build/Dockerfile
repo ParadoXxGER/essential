@@ -18,12 +18,7 @@ COPY . /home/essential/
 
 ENV DATABASE_URL="postgresql://postgres:postgres@postgres/essential-test?pool=5"
 
-ENV RAILS_ENV=test
-
 RUN rake assets:precompile
-
-# Run unit & linting tests
-RUN rails test:system
 
 RUN rubocop app/** test/**  build/** config/**
 
