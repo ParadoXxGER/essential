@@ -10,4 +10,3 @@ Rails.application.routes.draw do
   resources :login, controller: 'user_sessions', only: %i[index create], as: 'login'
   post '/logout', to: 'user_sessions#destroy'
 end
-

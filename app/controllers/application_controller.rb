@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -20,5 +19,4 @@ class ApplicationController < ActionController::Base
   def ensure_login
     return redirect_to '/login' unless current_user
   end
-
 end

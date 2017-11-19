@@ -1,9 +1,7 @@
 class NewsfeedController < ApplicationController
-
   before_action :permit_params
   before_action :populate_filter, only: [:show]
   before_action :populate_tags, only: [:show]
-
 
   private
 
@@ -16,7 +14,6 @@ class NewsfeedController < ApplicationController
   end
 
   def permit_params
-
     unless params[:tags] || params[:filter] || params[:page] || params[:posts] || params[:from] || params[:to] || params[:sort_by]
       return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all', from: '2017-11-01', to: '2017-11-02', sort_by: 'date')
     end
@@ -29,5 +26,4 @@ class NewsfeedController < ApplicationController
     params.permit(:to).require(:to)
     params.permit(:sort_by).require(:sort_by)
   end
-
 end

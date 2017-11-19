@@ -1,5 +1,4 @@
 class UserSessionsController < ApplicationController
-
   layout 'public'
   skip_before_action :ensure_login
 
@@ -29,5 +28,4 @@ class UserSessionsController < ApplicationController
   def permit_params
     params[:user_session].permit!
   end
-
 end

@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   has_many :text_posts, dependent: :destroy
   has_many :photo_album_posts, dependent: :destroy
   has_many :file_posts, dependent: :destroy
@@ -11,19 +10,18 @@ class User < ApplicationRecord
   acts_as_authentic do |c|
     c.login_field = :email
     c.crypto_provider = Authlogic::CryptoProviders::BCrypt
-    c.validate_email_field=true
-    c.validates_format_of_email_field_options = {:with => Authlogic::Regex.email_nonascii}
+    c.validate_email_field = true
+    c.validates_format_of_email_field_options = { with: Authlogic::Regex.email_nonascii }
   end # the configuration block is optional
 
   before_create :lowercase_username
   before_create :lowercase_email
 
   def lowercase_username
-    self.username.downcase!
+    username.downcase!
   end
 
   def lowercase_email
-    self.email.downcase!
+    email.downcase!
   end
-
 end

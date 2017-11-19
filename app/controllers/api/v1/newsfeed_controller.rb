@@ -1,11 +1,9 @@
 module Api::V1
   class NewsfeedController < ApiController
-
     before_action :permit_params
     before_action :convert_params
 
     def index
-
       newsfeed = Newsfeed.new(
         cachekey,
         @filter,
@@ -58,6 +56,5 @@ module Api::V1
       @posts_count = params[:posts]
       @page = params[:page]
     end
-
   end
 end

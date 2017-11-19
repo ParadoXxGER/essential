@@ -1,5 +1,4 @@
 class Newsfeed
-
   attr_reader :cached
   attr_reader :cache_key
   attr_reader :filter
@@ -9,7 +8,6 @@ class Newsfeed
   attr_reader :posts
 
   def initialize(cache_key, filter, tags, page, posts_count)
-
     @filter = filter
     @tags = tags
     @page = page
@@ -22,26 +20,24 @@ class Newsfeed
     else
       @cached = false
       @posts = Post.includes(:user, :comments, :tags, :filter, :links, :photos)
-                    .where("filters.text IN (?)", @filter)
-                    .references(:user, :comments, :tags, :filter)
-                    .page(@page)
-                    .per(@posts)
-                    .order(created_at: :desc)
+                   .where('filters.text IN (?)', @filter)
+                   .references(:user, :comments, :tags, :filter)
+                   .page(@page)
+                   .per(@posts)
+                   .order(created_at: :desc)
       prepare_posts
 
       @posts = generate_output
 
-      if EssentialConfig::CACHE_ENABLED == 'true'
-        populate_cache
-      end
+      populate_cache if EssentialConfig::CACHE_ENABLED == 'true'
 
     end
   end
 
   def sort_by(pattern)
     case pattern
-      when 'weight'
-        @posts.sort_by!(&:weight).reverse!
+    when 'weight'
+      @posts.sort_by!(&:weight).reverse!
     end
   end
 
@@ -50,7 +46,7 @@ class Newsfeed
   def prepare_posts
     @posts.map do |post|
       post.weight = 0
-      post.created_at = post.created_at.strftime("%B %d %Y %H:%M")
+      post.created_at = post.created_at.strftime('%B %d %Y %H:%M')
       post.tags.each do |tag|
         if @tags.include?(tag.text)
           post.weight += 1
@@ -77,11 +73,11 @@ class Newsfeed
     @posts.to_json(
       include: {
         user: {
-          only: [:username, :id, :firstname, :lastname]
+          only: %i[username id firstname lastname]
         },
         comments: {
           include: {
-            user: { only: [:username, :id, :firstname, :lastname]}
+            user: { only: %i[username id firstname lastname] }
           }
         },
         tags: {
@@ -94,5 +90,4 @@ class Newsfeed
       methods: [:weight]
     )
   end
-
 end

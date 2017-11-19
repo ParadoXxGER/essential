@@ -1,5 +1,4 @@
 class Post < ApplicationRecord
-
   has_many :comments, dependent: :destroy
   has_many :filter, dependent: :destroy
   has_many :tags, dependent: :destroy
@@ -13,5 +12,4 @@ class Post < ApplicationRecord
   attr_accessor :sort_by
 
   paginates_per 50
-
 end

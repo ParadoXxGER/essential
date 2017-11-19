@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'authlogic'
+gem 'bcrypt'
+gem 'font-awesome-rails'
+gem 'kaminari'
+gem 'redis'
+gem 'redis-rails'
 gem 'rubocop', '~> 0.51.0', require: false
 gem 'webpacker', '~> 3.0'
-gem 'kaminari'
-gem 'redis-rails'
-gem 'redis'
-gem 'font-awesome-rails'
-gem 'bcrypt'
-gem 'authlogic'
 # Use Postgres driver
 gem 'pg'
 # Use HAML
@@ -46,7 +46,7 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
@@ -62,4 +62,4 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

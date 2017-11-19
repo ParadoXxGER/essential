@@ -1,6 +1,5 @@
 module Api::V1
   class PostsController < ApiController
-
     before_action :permit_input, only: [:create]
     before_action :permit_pagination, only: [:index]
 
@@ -29,6 +28,5 @@ module Api::V1
     def permit_pagination
       params.permit(:page, :posts_count)
     end
-
   end
 end

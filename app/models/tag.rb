@@ -7,11 +7,10 @@ class Tag < ApplicationRecord
   private
 
   def invalidate_cache_by_tag
-    keys = REDIS_CACHE_CLIENT.keys("*tag-#{self.text}[-]*")
+    keys = REDIS_CACHE_CLIENT.keys("*tag-#{text}[-]*")
     keys.each do |key|
-      puts "CACHE BUSTED: #{key} by tag '#{self.text}'"
+      puts "CACHE BUSTED: #{key} by tag '#{text}'"
       REDIS_CACHE_CLIENT.del(key)
     end
   end
-
 end
