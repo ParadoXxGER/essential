@@ -6,7 +6,7 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
 RUN npm install -g yarn
 
-WORKDIR /home/essential/
+WORKDIR /home/essential
 
 COPY Gemfile* /home/essential/
 
@@ -16,9 +16,15 @@ RUN bundle install
 
 COPY . /home/essential/
 
-ENV DATABASE_URL=postgresql://dummy:dummy@dummy/dummy
+ENV DATABASE_URL="postgresql://postgres:postgres@postgres/essential-test?pool=5"
 
 RUN rake assets:precompile
+
+# Run unit & linting tests
+RUN rails test:system
+
+RUN rubocop app/** test/**  build/** config/**
+
 
 RUN chmod +x bin/test.sh
 
