@@ -7,11 +7,7 @@ class Newsfeed
   attr_reader :posts_count
   attr_reader :posts
 
-  def initialize(cache_key, filter, tags, page, posts_count)
-    @filter = filter
-    @tags = tags
-    @page = page
-    @posts_count = posts_count
+  def initialize(cache_key, newsfeed_query)
     @cache_key = cache_key
 
     if EssentialConfig::CACHE_ENABLED == 'true' && REDIS_CACHE_CLIENT.exists(cache_key)
@@ -20,10 +16,10 @@ class Newsfeed
     else
       @cached = false
       @posts = Post.includes(:user, :comments, :tags, :filter, :links, :photos)
-                   .where('filters.text IN (?)', @filter)
+                   .where('filters.text IN (?)', newsfeed_query.filter)
                    .references(:user, :comments, :tags, :filter)
-                   .page(@page)
-                   .per(@posts)
+                   .page(newsfeed_query.page)
+                   .per(newsfeed_query.posts_count)
                    .order(created_at: :desc)
       prepare_posts
 
@@ -48,7 +44,7 @@ class Newsfeed
       post.weight = 0
       post.created_at = post.created_at.strftime('%B %d %Y %H:%M')
       post.tags.each do |tag|
-        if @tags.include?(tag.text)
+        if newsfeed_query.tags.include?(tag.text)
           post.weight += 1
         else
           post.weight -= 0.5

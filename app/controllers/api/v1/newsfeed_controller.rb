@@ -1,60 +1,44 @@
-module Api::V1
-  class NewsfeedController < ApiController
-    before_action :permit_params
-    before_action :convert_params
+module Api
+  module V1
+    class NewsfeedController < ApiController
+      def index
+        newsfeed = Newsfeed.new(
+          cachekey,
+          @newsfeed_query
+        )
 
-    def index
-      newsfeed = Newsfeed.new(
-        cachekey,
-        @filter,
-        @tags,
-        @page,
-        @posts_count
-      )
+        if newsfeed.cached
+          set_cache_header('X-Cache-Hit', newsfeed.cache_key)
+          return render json: newsfeed.posts
+        end
 
-      if newsfeed.cached
-        set_cache_header('X-Cache-Hit', newsfeed.cache_key)
-        return render json: newsfeed.posts
+        set_cache_header('X-Cache-Miss', newsfeed.cache_key)
+        render json: newsfeed.posts
       end
 
-      set_cache_header('X-Cache-Miss', newsfeed.cache_key)
-      render json: newsfeed.posts
-    end
+      private
 
-    private
+      def cachekey
+        reorder_filter
+        reorder_tags
+        "#{@newsfeed_query.filter.parameterize}
+          -#{@newsfeed_query.tags.parameterize}
+          -page:#{@newsfeed_query.page}
+          -posts:#{@newsfeed_query.posts_count}
+        "
+      end
 
-    def permit_params
-      params.permit(:tags).require(:tags)
-      params.permit(:filter).require(:filter)
-      params.permit(:page).require(:page)
-      params.permit(:posts).require(:posts)
-      params.permit(:to).require(:to)
-      params.permit(:from).require(:from)
-      params.permit(:sort_by).require(:sort_by)
-    end
+      def set_cache_header(key, value)
+        response.set_header(key, value)
+      end
 
-    def cachekey
-      filter = @filter.map do |filter|
-        filter = "filter-#{filter}"
-      end.sort!.reverse!.join(' ')
+      def reorder_filter
+        @newsfeed_query.filter.map { |filter| "filter-#{filter}" }.sort!.reverse!.join(' ')
+      end
 
-      tags = @tags.map do |tag|
-        tag = "tag-#{tag}"
-      end.sort!.reverse!.join(' ')
-
-      "#{filter.parameterize}-#{tags.parameterize}-page:#{params[:page]}-posts:#{params[:posts]}"
-    end
-
-    def set_cache_header(key, value)
-      response.set_header(key, value)
-    end
-
-    def convert_params
-      @tags = params[:tags].split(' ')
-      @filter = params[:filter].split(' ')
-      @sort_by = params[:sort_by]
-      @posts_count = params[:posts]
-      @page = params[:page]
+      def reorder_tags
+        @newsfeed_query.tags.map { |tag| "tag-#{tag}" }.sort!.reverse!.join(' ')
+      end
     end
   end
 end
