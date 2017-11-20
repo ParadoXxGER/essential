@@ -16,34 +16,26 @@ class NewsfeedQuery
   private
 
   def populate_filter(url_params)
-    begin
-      @filter = url_params.fetch(:filter).split(' ')
-    rescue KeyError
-      @filter = 'all'
-    end
+    @filter = url_params.fetch(:filter).split(' ')
+  rescue KeyError
+    @filter = 'all'
   end
 
   def populate_tags(url_params)
-    begin
-      @tags = url_params.fetch(:tags).split(' ')
-    rescue KeyError
-      @tags = 'all'
-    end
+    @tags = url_params.fetch(:tags).split(' ')
+  rescue KeyError
+    @tags = 'all'
   end
 
   def populate_page(url_params)
-    begin
-      @page = url_params.fetch(:page)
-    rescue KeyError
-      @page = 'all'
-    end
+    @page = url_params.fetch(:page)
+  rescue KeyError
+    @page = 'all'
   end
 
   def populate_posts_count(url_params)
-    begin
-      @posts_count = url_params.fetch(:posts_count)
-    rescue KeyError
-      @posts_count = 'all'
-    end
+    @posts_count = url_params.fetch(:posts_count)
+  rescue KeyError
+    @posts_count = 'all'
   end
 end
