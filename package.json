@@ -8,7 +8,9 @@
     "react-dom": "^16.1.0",
     "react_ujs": "^2.4.1",
     "react-router": "4.2.0",
-    "react-router-dom": "4.2.2"
+    "react-router-dom": "4.2.2",
+    "megadraft": "0.4.33",
+    "react-render-html": "0.6.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.9.4"

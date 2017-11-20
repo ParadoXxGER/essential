@@ -33,7 +33,7 @@ export default class Essential extends React.Component {
     };
 
     {
-      if(this.state.locked === true){
+      if(this.state.locked === true) {
         return <Lockscreen user={this.props.user}></Lockscreen>
       }
     }

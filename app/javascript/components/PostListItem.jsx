@@ -2,6 +2,7 @@ import React from 'react'
 
 import PostCommentArea from './PostCommentArea'
 import PostComment from './PostComment'
+import renderHTML from 'react-render-html';
 
 export default class PostListItem extends React.Component {
   constructor(){
@@ -80,7 +81,7 @@ export default class PostListItem extends React.Component {
                     </nav>
                     <div className="content">
                         <p style={{ wordBreak: 'break-all' }}>
-                            {this.props.obj.content}
+                            {renderHTML(this.props.obj.content)}
                             <br />
                             <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · {this.props.obj.created_at}</small>
                         </p>

@@ -16,10 +16,22 @@ export default class PostAddonChooser extends React.Component {
               <span className="icon">
                 <i className="fa fa-plus"></i>
               </span>
+              <span>Addon</span>
             </button>
           </div>
           <div className="dropdown-menu" id="dropdown-menu" role="menu">
-            <div className="dropdown-content" style={{maxHeight: "200px", overflowX: "scroll"}}>
+            <div className="dropdown-content" style={{maxHeight: "400px", overflowX: "scroll"}}>
+              <a className="dropdown-item has-icon">
+                <p>
+                  <span className="icon">
+                   <i className="fa fa-link" aria-hidden="true">
+                   </i>
+                  </span>
+                  <strong>Link</strong>
+                  <br/>
+                  <small>Generate a preview of a http link.</small>
+                </p>
+              </a>
               <a className="dropdown-item has-icon">
                 <p>
                   <span className="icon">
@@ -73,17 +85,6 @@ export default class PostAddonChooser extends React.Component {
                   <strong>Photo gallery</strong>
                   <br/>
                   <small>Share a gallery of photos</small>
-                </p>
-              </a>
-              <a className="dropdown-item has-icon">
-                <p>
-                  <span className="icon">
-                   <i className="fa fa-link" aria-hidden="true">
-                   </i>
-                  </span>
-                  <strong>Link</strong>
-                  <br/>
-                  <small>Generate a preview of a http link.</small>
                 </p>
               </a>
               <hr className="navbar-divider"/>
