@@ -9,24 +9,14 @@ class Newsfeed
 
   def initialize(cache_key, newsfeed_query)
     @cache_key = cache_key
-
-    if EssentialConfig::CACHE_ENABLED == 'true' && REDIS_CACHE_CLIENT.exists(cache_key)
-      @posts = JSON.parse(REDIS_CACHE_CLIENT.get(cache_key))
-      @cached = true
+    @cached = cache_active?
+    @newsfeed_query = newsfeed_query
+    if cache_active? && cache_key_exists?(cache_key)
+      use_cache(cache_key)
     else
-      @cached = false
-      @posts = Post.includes(:user, :comments, :tags, :filter, :links, :photos)
-                   .where('filters.text IN (?)', newsfeed_query.filter)
-                   .references(:user, :comments, :tags, :filter)
-                   .page(newsfeed_query.page)
-                   .per(newsfeed_query.posts_count)
-                   .order(created_at: :desc)
+      query_posts
       prepare_posts
-
-      @posts = generate_output
-
-      populate_cache if EssentialConfig::CACHE_ENABLED == 'true'
-
+      populate_cache if cache_active?
     end
   end
 
@@ -39,49 +29,62 @@ class Newsfeed
 
   private
 
-  def prepare_posts
+  def cache_active?
+    EssentialConfig::CACHE_ENABLED == 'true'
+  end
+
+  def cache_key_exists?(cache_key)
+    REDIS_CACHE_CLIENT.exists(cache_key)
+  end
+
+  def use_cache(cache_key)
+    @posts = JSON.parse(REDIS_CACHE_CLIENT.get(cache_key))
+  end
+
+  def query_posts
+    @posts = Post.includes(:user, :comments, :tags, :filter, :links, :photos)
+                 .where('filters.text IN (?)', @newsfeed_query.filter)
+                 .references(:user, :comments, :tags, :filter)
+                 .page(@newsfeed_query.page)
+                 .per(@newsfeed_query.posts_count)
+                 .order(created_at: :desc)
+  end
+
+  def convert_date
     @posts.map do |post|
-      post.weight = 0
       post.created_at = post.created_at.strftime('%B %d %Y %H:%M')
-      post.tags.each do |tag|
-        if newsfeed_query.tags.include?(tag.text)
-          post.weight += 1
-        else
-          post.weight -= 0.5
-        end
-      end
+      post
+    end
+  end
+
+  def sort_tags
+    @posts.map do |post|
       post.tags = post.tags.sort_by(&:text).reverse!
       post
     end
   end
 
-  def populate_cache
-    if EssentialConfig::CACHE_ENABLED == 'true'
-      begin
-        REDIS_CACHE_CLIENT.set(@cache_key, @posts)
-      rescue
+  def add_weight
+    @posts.map do |post|
+      post.weight = 0
+      post.tags.each do |tag|
+        post.weight += 0.5 if @newsfeed_query.tags.include?(tag.text)
       end
-      puts "CACHE SET: #{@cache_key}"
+      post
     end
   end
 
+  def populate_cache
+    REDIS_CACHE_CLIENT.set(@cache_key, @posts)
+  end
+
   def generate_output
-    @posts.to_json(
+    @posts = @posts.to_json(
       include: {
-        user: {
-          only: %i[username id firstname lastname]
-        },
-        comments: {
-          include: {
-            user: { only: %i[username id firstname lastname] }
-          }
-        },
-        tags: {
-          only: [:text]
-        },
-        filter: {
-          only: [:text]
-        }
+        user: { only: %i[username id firstname lastname] },
+        comments: { include: { user: { only: %i[username id firstname lastname] } } },
+        tags: { only: [:text] },
+        filter: { only: [:text] }
       },
       methods: [:weight]
     )

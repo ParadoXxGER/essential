@@ -5,22 +5,25 @@ module Api
       before_action :permit_pagination, only: [:index]
 
       def create
-        post = Post.new
-        post.user = User.first
-        post.content = params[:text]
-
-        params[:tags].split(' ').each do |tag|
-          post.tags << Tag.new(text: tag, post: post)
-        end
-
-        params[:filter].split(' ').each do |filter|
-          post.filter << Filter.new(text: filter, post: post)
-        end
-
-        post.save
+        @post = Post.new(user: User.first, content: params[:text])
+        add_tags
+        add_filter
+        @post.save
       end
 
       private
+
+      def add_tags
+        params[:tags].split(' ').each do |tag|
+          @post.tags << Tag.new(text: tag, post: post)
+        end
+      end
+
+      def add_filter
+        params[:filter].split(' ').each do |filter|
+          @post.filter << Filter.new(text: filter, post: post)
+        end
+      end
 
       def permit_input
         params.permit(:text, :tags, :filter)
