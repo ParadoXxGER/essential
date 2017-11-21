@@ -3,17 +3,14 @@ module Api
     class NewsfeedController < ApiController
       def index
         @newsfeed_query = NewsfeedQuery.new(params)
-
         newsfeed = Newsfeed.new(
           cachekey,
           @newsfeed_query
         )
-
         if newsfeed.cached
           set_cache_header('X-Cache-Hit', newsfeed.cache_key)
           return render json: newsfeed.posts
         end
-
         set_cache_header('X-Cache-Miss', newsfeed.cache_key)
         render json: newsfeed.posts
       end
