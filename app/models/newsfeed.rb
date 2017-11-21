@@ -9,18 +9,14 @@ class Newsfeed
 
   def initialize(cache_key, newsfeed_query)
     @cache_key = cache_key
-    @cached = cache_active?
     @newsfeed_query = newsfeed_query
-    if cache_active? && cache_key_exists?(cache_key)
-      use_cache(cache_key)
-    else
-      query_posts
-      convert_date
-      sort_tags
-      sort_by(newsfeed_query.sortby)
-      generate_output
-      populate_cache if cache_active?
-    end
+    return use_cache(cache_key) if cache_active? && cache_key_exists?(cache_key)
+    query_posts
+    convert_date
+    sort_tags
+    sort_by(newsfeed_query.sortby)
+    generate_output
+    populate_cache if cache_active?
   end
 
   def sort_by(pattern)
@@ -34,8 +30,10 @@ class Newsfeed
 
   def cache_active?
     if EssentialConfig::CACHE_ENABLED == 'true'
+      @cached = true
       true
     else
+      @cached = false
       false
     end
   end
@@ -99,6 +97,5 @@ class Newsfeed
       },
       methods: [:weight]
     )
-    byebug
   end
 end

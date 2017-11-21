@@ -1,7 +1,6 @@
 module Api
   module V1
     class PostsController < ApiController
-
       def create
         @post = Post.new(user: User.first, content: params[:text])
         add_tags

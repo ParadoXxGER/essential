@@ -3,10 +3,7 @@ module Api
     class NewsfeedController < ApiController
       def index
         @newsfeed_query = NewsfeedQuery.new(params)
-        newsfeed = Newsfeed.new(
-          cachekey,
-          @newsfeed_query
-        )
+        newsfeed = Newsfeed.new(cachekey, @newsfeed_query)
         if newsfeed.cached
           set_cache_header('X-Cache-Hit', newsfeed.cache_key)
           return render json: newsfeed.posts
@@ -20,9 +17,9 @@ module Api
       def cachekey
         reorder_filter
         reorder_tags
-        @newsfeed_query.raw_query[:filter].parameterize.to_s <<
-          "-#{@newsfeed_query.raw_query[:tags].parameterize}" <<
-          "-page:#{@newsfeed_query.page}" <<
+        @newsfeed_query.raw_query[:filter].parameterize.to_s \
+          "-#{@newsfeed_query.raw_query[:tags].parameterize}" \
+          "-page:#{@newsfeed_query.page}" \
           "-posts:#{@newsfeed_query.posts_count}"
       end
 
