@@ -2,6 +2,8 @@ module Api
   module V1
     class NewsfeedController < ApiController
       def index
+        @newsfeed_query = NewsfeedQuery.new(params)
+
         newsfeed = Newsfeed.new(
           cachekey,
           @newsfeed_query
@@ -21,11 +23,10 @@ module Api
       def cachekey
         reorder_filter
         reorder_tags
-        "#{@newsfeed_query.filter.parameterize}
-          -#{@newsfeed_query.tags.parameterize}
-          -page:#{@newsfeed_query.page}
-          -posts:#{@newsfeed_query.posts_count}
-        "
+        @newsfeed_query.raw_query[:filter].parameterize.to_s <<
+          "-#{@newsfeed_query.raw_query[:tags].parameterize}" <<
+          "-page:#{@newsfeed_query.page}" <<
+          "-posts:#{@newsfeed_query.posts_count}"
       end
 
       def set_cache_header(key, value)

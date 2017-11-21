@@ -15,7 +15,10 @@ class Newsfeed
       use_cache(cache_key)
     else
       query_posts
-      prepare_posts
+      convert_date
+      sort_tags
+      sort_by(newsfeed_query.sortby)
+      generate_output
       populate_cache if cache_active?
     end
   end
@@ -30,11 +33,19 @@ class Newsfeed
   private
 
   def cache_active?
-    EssentialConfig::CACHE_ENABLED == 'true'
+    if EssentialConfig::CACHE_ENABLED == 'true'
+      true
+    else
+      false
+    end
   end
 
   def cache_key_exists?(cache_key)
-    REDIS_CACHE_CLIENT.exists(cache_key)
+    if REDIS_CACHE_CLIENT.exists(cache_key)
+      true
+    else
+      false
+    end
   end
 
   def use_cache(cache_key)
@@ -51,21 +62,21 @@ class Newsfeed
   end
 
   def convert_date
-    @posts.map do |post|
+    @posts = @posts.map do |post|
       post.created_at = post.created_at.strftime('%B %d %Y %H:%M')
       post
     end
   end
 
   def sort_tags
-    @posts.map do |post|
+    @posts = @posts.map do |post|
       post.tags = post.tags.sort_by(&:text).reverse!
       post
     end
   end
 
   def add_weight
-    @posts.map do |post|
+    @posts = @posts.map do |post|
       post.weight = 0
       post.tags.each do |tag|
         post.weight += 0.5 if @newsfeed_query.tags.include?(tag.text)
@@ -88,5 +99,6 @@ class Newsfeed
       },
       methods: [:weight]
     )
+    byebug
   end
 end

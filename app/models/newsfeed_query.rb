@@ -4,12 +4,14 @@ class NewsfeedQuery
   attr_reader :page
   attr_reader :posts_count
   attr_reader :raw_query
+  attr_reader :sortby
 
   def initialize(url_params)
     populate_filter(url_params)
     populate_page(url_params)
     populate_posts_count(url_params)
     populate_tags(url_params)
+    populate_sort(url_params)
     @raw_query = url_params
   end
 
@@ -31,6 +33,12 @@ class NewsfeedQuery
     @page = url_params.fetch(:page)
   rescue KeyError
     @page = 'all'
+  end
+
+  def populate_sort(url_params)
+    @sortby = url_params.fetch(:sort_by)
+  rescue KeyError
+    @sortby = 'date'
   end
 
   def populate_posts_count(url_params)

@@ -1,10 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :ensure_login
+  before_action :create_newsfeed_query
 
   helper_method :current_user_session, :current_user
 
   private
+
+  def create_newsfeed_query
+    @newsfeed_query = NewsfeedQuery.new(params)
+  end
 
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
