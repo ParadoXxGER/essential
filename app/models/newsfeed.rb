@@ -1,10 +1,6 @@
 class Newsfeed
   attr_reader :cached
   attr_reader :cache_key
-  attr_reader :filter
-  attr_reader :tags
-  attr_reader :page
-  attr_reader :posts_count
   attr_reader :posts
 
   def initialize(cache_key, newsfeed_query)
@@ -28,6 +24,7 @@ class Newsfeed
 
   private
 
+  # Todo move into Controller
   def cache_active?
     if EssentialConfig::CACHE_ENABLED == 'true'
       @cached = true

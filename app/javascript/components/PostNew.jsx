@@ -2,8 +2,6 @@ import React from 'react'
 import PostAddonChooser from "./PostAddonChooser";
 import {MegadraftEditor, editorStateFromRaw, editorStateToJSON} from "megadraft";
 
-import 'megadraft/dist/css/megadraft.css';
-
 export default class PostNew extends React.Component {
 
   constructor(props) {
@@ -85,12 +83,10 @@ export default class PostNew extends React.Component {
             </div>
           </nav>
           <div className="field">
-            <p className="control">
-              <MegadraftEditor
+            <MegadraftEditor
                 editorState={this.state.editorState}
                 onChange={this.onChange}
-              />
-            </p>
+            />
           </div>
           <nav className="level">
             <div className="level-left">
@@ -101,7 +97,7 @@ export default class PostNew extends React.Component {
             <div className="level-right">
               <div className="level-item">
                 <p className="field">
-                  <button className="button is-outlined is-danger" onClick={this.onToggleNewPostArea}>
+                  <button className="button" onClick={this.onToggleNewPostArea}>
                     <span className="icon">
                       <i className="fa fa-times">
 
@@ -112,7 +108,7 @@ export default class PostNew extends React.Component {
                 </p>
               </div>
               <div className="level-item">
-                <button onClick={this.handleSubmit} className="button is-outlined is-success">
+                <button onClick={this.handleSubmit} className="button">
                   <span className="icon">
                     <i className="fa fa-save">
 
