@@ -9,7 +9,7 @@ services:
       - "POSTGRES_DB=essential-test"
   essential-redis:
     image: redis
-  essential-backend-build:
+  essential-backend:
     image: paradoxxger/essential-backend:latest
     build:
       context: ../
