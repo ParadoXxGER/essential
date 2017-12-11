@@ -2,20 +2,17 @@ import React from 'react'
 
 import PostCommentArea from './PostCommentArea'
 import PostComment from './PostComment'
-import renderHTML from 'react-render-html';
+import {MegadraftEditor, editorStateFromRaw, editorStateToJSON} from "megadraft";
 
 export default class PostListItem extends React.Component {
-  constructor(){
-      super();
-      this.state = {commentArea: { active: false}}
+  constructor(props){
+    super(props);
+    this.state = {commentArea: { active: false}};
   }
-
-  componentDidMount(){
-
-  }
-
 
   render() {
+
+    const editorState = editorStateFromRaw(this.props.obj.text);
 
     return (
         <div>
@@ -80,18 +77,22 @@ export default class PostListItem extends React.Component {
                         </div>
                     </nav>
                     <div className="content">
+
+                      <MegadraftEditor
+                          editorState={editorState}
+                          readOnly={true}
+                      />
                         <p style={{ wordBreak: 'break-all' }}>
-                            {renderHTML(this.props.obj.content)}
                             <br />
                             <small><a>Like</a> · <a onClick={()=>{this.setState({commentArea: { active: !this.state.commentArea.active}})}}>Reply</a> · {this.props.obj.created_at}</small>
                         </p>
                     </div>
                     <div className="tags">
                       {
-                        this.props.obj.filter.map(filter => { return ( <a className="tag is-success" key={filter.id}>{filter.text}</a>)})
+                        this.props.obj.filter.map(filter => { return ( <a className="tag is-success" key={filter.id+"FILTER"}>{filter.text}</a>)})
                       }
                       {
-                        this.props.obj.tags.map(tag => { return ( <a className="tag is-link" key={tag.id}>{tag.text}</a>)})
+                        this.props.obj.tags.map(tag => { return ( <a className="tag is-link" key={tag.id+"TAG"}>{tag.text}</a>)})
                       }
                     </div>
                     {

@@ -3,6 +3,7 @@ class Newsfeed
   attr_reader :cache_key
   attr_reader :posts
 
+  # Todo rewrite into public methods (use_cache and so on)
   def initialize(cache_key, newsfeed_query)
     @cache_key = cache_key
     @newsfeed_query = newsfeed_query
@@ -89,8 +90,8 @@ class Newsfeed
       include: {
         user: { only: %i[username id firstname lastname] },
         comments: { include: { user: { only: %i[username id firstname lastname] } } },
-        tags: { only: [:text] },
-        filter: { only: [:text] }
+        tags: { only: %i[text id] },
+        filter: { only: %i[text id] }
       },
       methods: [:weight]
     )

@@ -1,15 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :ensure_login
-  before_action :create_newsfeed_query
+  before_action :permit_params
 
   helper_method :current_user_session, :current_user
 
   private
-
-  def create_newsfeed_query
-    @newsfeed_query = NewsfeedQuery.new(params)
-  end
 
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
@@ -23,5 +19,12 @@ class ApplicationController < ActionController::Base
 
   def ensure_login
     return redirect_to '/login' unless current_user
+  end
+
+  def permit_params
+    unless params[:tags] || params[:filter] || params[:page] || params[:posts]
+      return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all')
+    end
+    @newsfeed_query ||= NewsfeedQuery.new(params)
   end
 end

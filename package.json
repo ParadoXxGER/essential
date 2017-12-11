@@ -3,14 +3,18 @@
     "@rails/webpacker": "^3.0.2",
     "babel-preset-react": "^6.24.1",
     "coffeescript": "1.12.7",
+    "draft-js-export-html": "1.2.0",
+    "megadraft": "0.4.33",
     "prop-types": "^15.6.0",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
-    "react_ujs": "^2.4.1",
+    "react-render-html": "0.6.0",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
-    "megadraft": "0.4.33",
-    "react-render-html": "0.6.0"
+    "react_ujs": "^2.4.1",
+    "vue": "^2.5.9",
+    "vue-loader": "^13.5.0",
+    "vue-template-compiler": "^2.5.9"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.9.4"

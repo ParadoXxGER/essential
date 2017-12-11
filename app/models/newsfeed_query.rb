@@ -32,7 +32,7 @@ class NewsfeedQuery
   def populate_page(url_params)
     @page = url_params.fetch(:page)
   rescue KeyError
-    @page = 'all'
+    @page = 1
   end
 
   def populate_sort(url_params)
@@ -44,6 +44,6 @@ class NewsfeedQuery
   def populate_posts_count(url_params)
     @posts_count = url_params.fetch(:posts_count)
   rescue KeyError
-    @posts_count = 'all'
+    @posts_count = 15
   end
 end
