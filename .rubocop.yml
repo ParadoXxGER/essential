@@ -12,6 +12,7 @@ AllCops:
     - 'config/environments/env.rb'
     - 'Gemfile'
     - 'Rakefile'
+    - 'bin/yarn'
 Metrics/AbcSize:
   Enabled: true
   Max: 17.5

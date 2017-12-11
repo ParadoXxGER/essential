@@ -6,11 +6,7 @@ Types::ValidatorType = GraphQL::ObjectType.define do
     description 'Input a email and get some result'
     argument :email, !types.String
     resolve ->(_obj, args, _ctx) {
-      if args['email'] == 'niklas.hanft@outlook.com'
-        true
-      else
-        false
-      end
+      args['email'] == 'niklas.hanft@outlook.com'
     }
   end
 end

@@ -7,13 +7,16 @@ class Newsfeed
   def initialize(cache_key, newsfeed_query)
     @cache_key = cache_key
     @newsfeed_query = newsfeed_query
-    return use_cache(cache_key) if cache_active? && cache_key_exists?(cache_key)
-    query_posts
-    convert_date
-    sort_tags
-    sort_by(newsfeed_query.sortby)
-    generate_output
-    populate_cache if cache_active?
+    if cache_active? && cache_key_exists?(cache_key)
+      use_cache(cache_key)
+    else
+      query_posts
+      convert_date
+      sort_tags
+      sort_by(newsfeed_query.sortby)
+      generate_output
+      populate_cache if cache_active?
+    end
   end
 
   def sort_by(pattern)
