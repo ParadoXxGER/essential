@@ -1,10 +1,29 @@
+AllCops:
+  Includes:
+    - 'app/controllers/**'
+    - 'app/graphql/**/*'
+    - 'app/models/**/*'
+    - 'test/**/*'
+  Excludes:
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'test/fixtures/**/*'
+    - 'db/**/*'
+    - 'config/environments/env.rb'
+    - 'Gemfile'
+    - 'Rakefile'
+Metrics/AbcSize:
+  Enabled: true
+  Max: 17.5
+
 Metrics/LineLength:
   Enabled: true
-  Max: 120
-  Include:
-    - 'app/**/*'
-  Exclude:
-    - 'db/**/*'
-    - 'config/**/*'
+  Max: 115
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 15
 Documentation:
+  Enabled: false
+Style/Lambda:
   Enabled: false

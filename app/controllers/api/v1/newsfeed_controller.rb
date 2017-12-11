@@ -1,7 +1,6 @@
 module Api
   module V1
     class NewsfeedController < ApiController
-
       def index
         newsfeed = Newsfeed.new(cachekey, @newsfeed_query)
         reorder_filter

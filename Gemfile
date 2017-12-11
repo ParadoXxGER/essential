@@ -5,10 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'graphql'
 gem 'authlogic'
 gem 'bcrypt'
 gem 'font-awesome-rails'
+gem 'graphql'
 gem 'kaminari'
 gem 'redis'
 gem 'redis-rails'
