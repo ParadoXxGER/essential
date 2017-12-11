@@ -12,7 +12,7 @@ export default class PostListItem extends React.Component {
 
   render() {
 
-    const editorState = editorStateFromRaw(this.props.obj.text);
+    const editorState = editorStateFromRaw(JSON.parse(this.props.obj.content));
 
     return (
         <div>

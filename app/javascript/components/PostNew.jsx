@@ -86,6 +86,7 @@ export default class PostNew extends React.Component {
             <MegadraftEditor
                 editorState={this.state.editorState}
                 onChange={this.onChange}
+                placeholder="Write something..."
             />
           </div>
           <nav className="level">
