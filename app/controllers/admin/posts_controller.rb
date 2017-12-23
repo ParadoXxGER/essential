@@ -4,17 +4,16 @@ module Admin
 
     def index
       @posts = Post.includes(:user)
-                 .references(:user)
-                 .page(params[:page])
-                 .per(params[:posts])
-                 .order(created_at: :desc)
+                   .references(:user)
+                   .page(params[:page])
+                   .per(params[:posts])
+                   .order(created_at: :desc)
     end
+
     private
 
     def permit_params
-      unless params[:page] || params[:posts]
-        redirect_to admin_posts_path(page: 1, posts: 15)
-      end
+      redirect_to admin_posts_path(page: 1, posts: 15) unless params[:page] || params[:posts]
     end
   end
 end

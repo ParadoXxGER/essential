@@ -12,7 +12,6 @@ module Api
       def user_params
         params.permit(:username, :firstname, :email, :id, :lastname, :posts, :created_at).to_h
       end
-
     end
   end
 end

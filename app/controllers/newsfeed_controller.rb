@@ -1,5 +1,4 @@
 class NewsfeedController < ApplicationController
-
   before_action :permit_params
 
   private
@@ -10,5 +9,4 @@ class NewsfeedController < ApplicationController
     end
     @newsfeed_query ||= NewsfeedQuery.new(params)
   end
-
 end

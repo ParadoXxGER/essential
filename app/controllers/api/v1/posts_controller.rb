@@ -18,6 +18,7 @@ module Api
         end
         @newsfeed_query ||= NewsfeedQuery.new(params)
       end
+
       def add_tags
         @newsfeed_query.tags.each do |tag|
           @post.tags << Tag.new(text: tag, post: @post)

@@ -5,9 +5,7 @@ module Admin
     private
 
     def permit_params
-      unless params[:page] || params[:pages]
-        redirect_to admin_pages_path(page: 1, pages: 15)
-      end
+      redirect_to admin_pages_path(page: 1, pages: 15) unless params[:page] || params[:pages]
     end
   end
 end
