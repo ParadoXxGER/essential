@@ -1,0 +1,38 @@
+%div.box{style: "height: 70vh; overflow-y: scroll;"}
+  %table.table.is-hoverable.is-fullwidth
+    %thead
+      %tr
+        %th
+          Image
+        %th
+          Firstname
+        %th
+          Lastname
+        %th
+          Username
+        %th
+          Created at
+        %th
+          Active
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td
+            %p.image.is-32x32
+              %img{src:'https://scontent-frx5-1.xx.fbcdn.net/v/t1.0-1/c1.0.40.40/p40x40/10462372_883074528426654_8559815598301621347_n.jpg?oh=7ecebca21425321713c62a1787f3867e&oe=5AA3A0B6', style: 'border-radius: 50%'}
+          %td
+            = user.firstname
+          %td
+            = user.lastname
+          %td
+            = user.username
+          %td
+            = user.created_at
+          %td
+            = user.active
+%nav.pagination{"aria-label" => "pagination", :role => "navigation"}
+  = link_to_previous_page @users, 'Previous page', {class: 'pagination-previous'}
+  = link_to_next_page @users, 'Next page', {class: 'pagination-next'}
+  %ul.pagination-list
+    %li
+      = page_entries_info @users

@@ -1,6 +1,8 @@
 module Api
   module V1
     class PostsController < ApiController
+      before_action :permit_params
+
       def create
         @post = Post.new(user: User.first, content: params[:text])
         add_tags
@@ -10,6 +12,12 @@ module Api
 
       private
 
+      def permit_params
+        unless params[:tags] || params[:filter] || params[:page] || params[:posts]
+          return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all')
+        end
+        @newsfeed_query ||= NewsfeedQuery.new(params)
+      end
       def add_tags
         @newsfeed_query.tags.each do |tag|
           @post.tags << Tag.new(text: tag, post: @post)

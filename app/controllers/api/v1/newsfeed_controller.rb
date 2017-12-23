@@ -1,6 +1,8 @@
 module Api
   module V1
     class NewsfeedController < ApiController
+      before_action :permit_params
+
       def index
         newsfeed = Newsfeed.new(cachekey, @newsfeed_query)
         reorder_filter
@@ -14,6 +16,13 @@ module Api
       end
 
       private
+
+      def permit_params
+        unless params[:tags] || params[:filter] || params[:page] || params[:posts]
+          return redirect_to newsfeed_path(page: 1, posts: 15, tags: 'all', filter: 'all')
+        end
+        @newsfeed_query ||= NewsfeedQuery.new(params)
+      end
 
       def cachekey
         "#{@newsfeed_query.raw_query[:filter].parameterize}" \

@@ -1,0 +1,29 @@
+%div.box{style: "height: 70vh; overflow-y: scroll;"}
+  %table.table.is-hoverable.is-fullwidth
+    %thead
+      %tr
+        %th
+          From
+        %th
+          Created at
+        %th
+          Active
+        %th
+          Likes
+    %tbody
+      - @posts.each do |post|
+        %tr
+          %td
+            = "#{post.user.firstname} #{post.user.lastname}"
+          %td
+            = post.created_at
+          %td
+            true
+          %td
+            10
+%nav.pagination{"aria-label" => "pagination", :role => "navigation"}
+  = link_to_previous_page @posts, 'Previous page', {class: 'pagination-previous'}
+  = link_to_next_page @posts, 'Next page', {class: 'pagination-next'}
+  %ul.pagination-list
+    %li
+      = page_entries_info @posts

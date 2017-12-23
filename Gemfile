@@ -5,6 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'groupdate'
+gem 'chartkick'
+gem 'rubyql', '~> 0.0.4'
+gem 'active_link_to'
 gem 'authlogic'
 gem 'bcrypt'
 gem 'font-awesome-rails'

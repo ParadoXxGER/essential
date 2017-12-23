@@ -1,0 +1,18 @@
+%div.container
+  %nav.navbar.is-transparent
+    %div.navbar-brand
+      %div.navbar-item
+        %img{ src: "https://bulma.io/images/bulma-logo.png"}
+      %span.navbar-burger{ "data-target": "navMenu", onclick: 'toggleNavigation()', id: 'navBarBurger'}
+        %span
+        %span
+        %span
+    %div.navbar-menu{ 'id':'navBarMenu' }
+      %div.navbar-start
+        =active_link_to 'Dashboard', '/admin/dashboard', class: 'navbar-item', class_active: 'is-active', active: :exclusive
+        =active_link_to 'Users', admin_users_path(page: 1, users: 15), class: 'navbar-item', class_active: 'is-active', active: :exclusive
+        =active_link_to 'Posts', admin_posts_path(page: 1, posts: 15), class: 'navbar-item', class_active: 'is-active', active: :exclusive
+        =active_link_to 'Pages', admin_pages_path(page: 1, pages: 15), class: 'navbar-item', class_active: 'is-active', active: :exclusive
+        =active_link_to 'Settings', '/admin/settings', class: 'navbar-item', class_active: 'is-active', active: :exclusive
+      %div.navbar-end
+        =active_link_to 'Back to app', newsfeed_path, class: 'navbar-item', class_active: 'is-active', active: :exclusive

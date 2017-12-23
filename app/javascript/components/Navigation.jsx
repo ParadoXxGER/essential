@@ -128,17 +128,44 @@ export default class Navigation extends React.Component {
                             </div>
                             <div className="navbar-item">
                                 <div className="field is-grouped">
-                                  <form action="/logout" method="POST">
-                                      <p className="control">
-                                        <button type="submit" className="button is-link">
+                                </div>
+                            </div>
+                            <div className="navbar-item">
+                              <div className="dropdown is-hoverable is-right">
+                                <div className="dropdown-trigger">
+                                  <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    <span>Settings</span>
+                                    <span className="icon is-small">
+                                      <i className="fa fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                  </button>
+                                </div>
+                                <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                                  <div className="dropdown-content">
+                                    <a href="#" className="dropdown-item">
+                                      Dropdown item
+                                    </a>
+                                    <a className="dropdown-item">
+                                      Other dropdown item
+                                    </a>
+                                    <a href="#" className="dropdown-item">
+                                      Active dropdown item
+                                    </a>
+                                    <a href="/admin/dashboard" className="dropdown-item">
+                                      Admin Area
+                                    </a>
+                                    <hr className="dropdown-divider"/>
+                                    <form action="/logout" method="POST">
+                                      <button className="dropdown-item button is-text is-fullwidth" type="submit">
                                         <span className="icon">
                                           <i className="fa fa-sign-out"/>
                                         </span>
-                                            <span>Logout</span>
-                                        </button>
-                                      </p>
-                                  </form>
+                                        <span>Logout</span>
+                                      </button>
+                                    </form>
+                                  </div>
                                 </div>
+                              </div>
                             </div>
                         </div>
                     </div>
